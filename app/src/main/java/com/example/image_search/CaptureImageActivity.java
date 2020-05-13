@@ -32,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -254,7 +255,9 @@ public class CaptureImageActivity extends AppCompatActivity {
                 buffer.get(bytes);
                 try {
                     //save the image
-
+                    save(bytes);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 } finally {
                     if(image != null) {
                         image.close();
@@ -264,6 +267,16 @@ public class CaptureImageActivity extends AppCompatActivity {
         };
 
         reader.setOnImageAvailableListener(readerListener, nBackgroundHandler);
+    }
+
+    private void save(byte[] bytes) throws IOException {
+        FileOutputStream outputStream = null;
+
+        outputStream =  new FileOutputStream(file);
+
+        outputStream.write(bytes);
+
+        outputStream.close();
     }
 
 }
