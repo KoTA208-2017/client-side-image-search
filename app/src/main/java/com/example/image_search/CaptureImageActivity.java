@@ -13,6 +13,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
@@ -113,6 +114,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         public void onOpened(CameraDevice camera) {
             cameraDevice = camera;
 
+            //camera preview
             try {
                 createCameraPreview();
             } catch (CameraAccessException e) {
@@ -151,6 +153,11 @@ public class CaptureImageActivity extends AppCompatActivity {
                 cameraCaptureSession = session;
 
                 // update preview
+                try {
+                    updatePreview();
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -159,6 +166,16 @@ public class CaptureImageActivity extends AppCompatActivity {
             }
         }, null);
 
+    }
+
+    private void updatePreview() throws CameraAccessException {
+        if(cameraDevice == null) {
+            return;
+        }
+
+        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+
+        cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, nBackgroundHandler);
     }
 
     private void openCamera() throws CameraAccessException {
