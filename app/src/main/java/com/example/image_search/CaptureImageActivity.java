@@ -17,6 +17,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -239,6 +242,28 @@ public class CaptureImageActivity extends AppCompatActivity {
         file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                 , ts +".jpg");
         imagePath = file.getAbsolutePath();
+
+        ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
+            @Override
+            public void onImageAvailable(ImageReader imageReader) {
+                Image image = null;
+
+                image = imageReader.acquireLatestImage();
+                ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                byte[] bytes = new byte[buffer.capacity()];
+                buffer.get(bytes);
+                try {
+                    //save the image
+
+                } finally {
+                    if(image != null) {
+                        image.close();
+                    }
+                }
+            }
+        };
+
+        reader.setOnImageAvailableListener(readerListener, nBackgroundHandler);
     }
 
 }
