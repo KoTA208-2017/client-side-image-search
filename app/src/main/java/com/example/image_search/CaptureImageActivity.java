@@ -2,13 +2,19 @@ package com.example.image_search;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Handler;
@@ -77,13 +83,15 @@ public class CaptureImageActivity extends AppCompatActivity {
         }
     }
 
-
-
     TextureView.SurfaceTextureListener textureListener =  new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             //open camera
-            openCamera();
+            try {
+                openCamera();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -98,7 +106,25 @@ public class CaptureImageActivity extends AppCompatActivity {
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) { }
     };
 
-    private void openCamera() { }
+    private void openCamera() throws CameraAccessException {
+        CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
+
+        cameraId = manager.getCameraIdList()[0];
+
+        CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
+
+        StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        imageDimensions = map.getOutputSizes(SurfaceTexture.class)[0];
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(CaptureImageActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+            return;
+        }
+
+        //manager openCamera
+    }
 
     private void takePicture() { }
 
