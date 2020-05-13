@@ -16,6 +16,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
@@ -267,6 +268,36 @@ public class CaptureImageActivity extends AppCompatActivity {
         };
 
         reader.setOnImageAvailableListener(readerListener, nBackgroundHandler);
+
+        final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
+            @Override
+            public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                super.onCaptureCompleted(session, request, result);
+                try {
+                    createCameraPreview();
+
+                    // open crop screen
+
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
+            @Override
+            public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+                try {
+                    cameraCaptureSession.capture(captureBuilder.build(), captureListener, nBackgroundHandler);
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) { }
+
+        }, nBackgroundHandler);
     }
 
     private void save(byte[] bytes) throws IOException {
