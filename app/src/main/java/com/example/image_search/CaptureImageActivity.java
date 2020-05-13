@@ -309,5 +309,47 @@ public class CaptureImageActivity extends AppCompatActivity {
 
         outputStream.close();
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        startBackgroundThread();
+
+        if(textureView.isAvailable()) {
+            try {
+                openCamera();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            textureView.setSurfaceTextureListener(textureListener);
+        }
+    }
+
+    private void startBackgroundThread() {
+        nBackgroundThread = new HandlerThread("Camera Background");
+        nBackgroundThread.start();
+        nBackgroundHandler = new Handler(nBackgroundThread.getLooper());
+    }
+    
+    @Override
+    protected void onPause() {
+        try {
+            stopBackgroundThread();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        super.onPause();
+    }
+
+    protected void stopBackgroundThread() throws InterruptedException {
+        nBackgroundThread.quitSafely();
+
+        nBackgroundThread.join();
+        nBackgroundThread = null;
+        nBackgroundHandler = null;
+    }
 
 }
