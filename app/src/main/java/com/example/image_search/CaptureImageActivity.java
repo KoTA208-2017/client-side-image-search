@@ -1,7 +1,9 @@
 package com.example.image_search;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -17,6 +19,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -63,6 +66,15 @@ public class CaptureImageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 101) {
+            if(grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(getApplicationContext(), "Sorry, camera permission is necessary", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 
