@@ -2,6 +2,8 @@ package com.example.image_search;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.SurfaceTexture;
+import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
@@ -13,6 +15,7 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.ImageButton;
 
 import java.io.File;
@@ -52,6 +55,39 @@ public class CaptureImageActivity extends AppCompatActivity {
         captureBtn = findViewById(R.id.captureBtn);
         textureView.setSurfaceTextureListener(textureListener);
 
-        
+        captureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //take picture
+                takePicture();
+            }
+        });
+
     }
+
+
+
+    TextureView.SurfaceTextureListener textureListener =  new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
+            //open camera
+            openCamera();
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) { }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) { }
+    };
+
+    private void openCamera() { }
+
+    private void takePicture() { }
+
 }
