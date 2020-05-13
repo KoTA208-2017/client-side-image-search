@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -18,6 +19,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Size;
@@ -29,7 +31,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CaptureImageActivity extends AppCompatActivity {
 
@@ -70,7 +74,11 @@ public class CaptureImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //take picture
-                takePicture();
+                try {
+                    takePicture();
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -198,6 +206,39 @@ public class CaptureImageActivity extends AppCompatActivity {
         //manager openCamera
     }
 
-    private void takePicture() { }
+    private void takePicture() throws CameraAccessException {
+        if(cameraDevice == null) {
+            return;
+        }
+
+        CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
+        CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+        Size[] jpegSizes = null;
+
+        jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+
+        final int IMG_WIDTH = 1280;
+        final int IMG_HEIGHT = 960;
+
+        ImageReader reader = ImageReader.newInstance(IMG_WIDTH,IMG_HEIGHT,ImageFormat.JPEG, 1);
+
+        List<Surface> outputSurfaces = new ArrayList<>(2);
+        outputSurfaces.add(reader.getSurface());
+        outputSurfaces.add(new Surface(textureView.getSurfaceTexture()) );
+
+        final CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+        captureBuilder.addTarget(reader.getSurface());
+        captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+
+        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATION.get(rotation));
+
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+
+        file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                , ts +".jpg");
+        imagePath = file.getAbsolutePath();
+    }
 
 }
