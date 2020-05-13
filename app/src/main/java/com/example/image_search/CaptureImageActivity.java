@@ -332,7 +332,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         nBackgroundThread.start();
         nBackgroundHandler = new Handler(nBackgroundThread.getLooper());
     }
-    
+
     @Override
     protected void onPause() {
         try {
