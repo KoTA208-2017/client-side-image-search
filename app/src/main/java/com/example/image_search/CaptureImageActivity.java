@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class CaptureImageActivity extends AppCompatActivity {
 
@@ -105,6 +106,60 @@ public class CaptureImageActivity extends AppCompatActivity {
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) { }
     };
+
+
+    private final CameraDevice.StateCallback stateCallback =  new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(CameraDevice camera) {
+            cameraDevice = camera;
+
+            try {
+                createCameraPreview();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onDisconnected(CameraDevice camera) {
+            cameraDevice.close();
+        }
+
+        @Override
+        public void onError(CameraDevice camera, int i) {
+            cameraDevice.close();
+            cameraDevice = null;
+        }
+    };
+
+    private void createCameraPreview() throws CameraAccessException {
+        SurfaceTexture texture = textureView.getSurfaceTexture();
+        texture.setDefaultBufferSize(imageDimensions.getWidth(), imageDimensions.getHeight());
+        Surface surface = new Surface(texture);
+
+        captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+
+        captureRequestBuilder.addTarget(surface);
+
+        cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback(){
+            @Override
+            public void onConfigured(CameraCaptureSession session) {
+                if(cameraDevice==null) {
+                    return;
+                }
+
+                cameraCaptureSession = session;
+
+                // update preview
+            }
+
+            @Override
+            public void onConfigureFailed(CameraCaptureSession session) {
+                Toast.makeText(getApplicationContext(), "Confoguration Changed", Toast.LENGTH_LONG).show();
+            }
+        }, null);
+
+    }
 
     private void openCamera() throws CameraAccessException {
         CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
