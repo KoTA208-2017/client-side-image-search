@@ -17,17 +17,14 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.icu.text.UnicodeSetSpanner;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -37,17 +34,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.graphics.ImageFormat.JPEG;
-import static android.graphics.ImageFormat.RAW_SENSOR;
 
 public class CaptureImageActivity extends AppCompatActivity {
 
@@ -66,11 +58,9 @@ public class CaptureImageActivity extends AppCompatActivity {
     private String cameraId;
     CameraDevice cameraDevice;
     CameraCaptureSession cameraCaptureSession;
-    CaptureRequest captureRequest;
     CaptureRequest.Builder captureRequestBuilder;
 
     private Size imageDimensions;
-    private ImageReader imageReader;
     private File file;
     Handler nBackgroundHandler;
     HandlerThread nBackgroundThread;
