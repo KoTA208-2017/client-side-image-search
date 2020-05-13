@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -262,6 +263,7 @@ public class CaptureImageActivity extends AppCompatActivity {
                 ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                 byte[] bytes = new byte[buffer.capacity()];
                 buffer.get(bytes);
+
                 try {
                     //save the image
                     save(bytes);
@@ -285,6 +287,9 @@ public class CaptureImageActivity extends AppCompatActivity {
                     createCameraPreview();
 
                     // open crop screen
+                    Intent mIntent = new Intent(CaptureImageActivity.this, CropImageActivity.class);
+                    mIntent.putExtra("IMAGE_PATH", imagePath);
+                    startActivity(mIntent);
 
                 } catch (CameraAccessException e) {
                     e.printStackTrace();
