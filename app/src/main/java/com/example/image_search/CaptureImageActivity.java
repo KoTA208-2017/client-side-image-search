@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -21,10 +22,12 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -44,7 +47,8 @@ import java.util.List;
 
 public class CaptureImageActivity extends AppCompatActivity {
 
-    ImageButton captureBtn;
+    private static int RESULT_LOAD_IMAGE = 1;
+    ImageButton captureBtn, galleryBtn;
     TextureView textureView;
     String imagePath;
     private static final SparseIntArray ORIENTATION = new SparseIntArray();
@@ -74,6 +78,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         
         textureView = findViewById(R.id.textureView);
         captureBtn = findViewById(R.id.captureBtn);
+        galleryBtn = findViewById(R.id.galleryBtn);
         textureView.setSurfaceTextureListener(textureListener);
 
         captureBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +93,36 @@ public class CaptureImageActivity extends AppCompatActivity {
             }
         });
 
+        galleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+
+    }
+
+    //From Gallery
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            imagePath = cursor.getString(columnIndex);
+            cursor.close();
+        }
     }
 
     @Override
