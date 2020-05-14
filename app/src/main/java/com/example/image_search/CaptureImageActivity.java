@@ -122,7 +122,17 @@ public class CaptureImageActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             imagePath = cursor.getString(columnIndex);
             cursor.close();
+
+            // open crop screen
+            intentToPreviewActivity();
         }
+    }
+
+    // open crop screen
+    private void intentToPreviewActivity(){
+        Intent mIntent = new Intent(CaptureImageActivity.this, CropImageActivity.class);
+        mIntent.putExtra("IMAGE_PATH", imagePath);
+        startActivity(mIntent);
     }
 
     @Override
@@ -312,11 +322,8 @@ public class CaptureImageActivity extends AppCompatActivity {
                 super.onCaptureCompleted(session, request, result);
                 try {
                     createCameraPreview();
-
                     // open crop screen
-                    Intent mIntent = new Intent(CaptureImageActivity.this, CropImageActivity.class);
-                    mIntent.putExtra("IMAGE_PATH", imagePath);
-                    startActivity(mIntent);
+                    intentToPreviewActivity();
 
                 } catch (CameraAccessException e) {
                     e.printStackTrace();
