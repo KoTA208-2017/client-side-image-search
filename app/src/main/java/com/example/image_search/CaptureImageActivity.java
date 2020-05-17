@@ -96,6 +96,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Intent to gallery
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -123,12 +124,12 @@ public class CaptureImageActivity extends AppCompatActivity {
             imagePath = cursor.getString(columnIndex);
             cursor.close();
 
-            // open crop screen
+            // open preview activity
             intentToPreviewActivity();
         }
     }
 
-    // open crop screen
+    // open preview activity
     private void intentToPreviewActivity(){
         Intent mIntent = new Intent(CaptureImageActivity.this, CropImageActivity.class);
         mIntent.putExtra("IMAGE_PATH", imagePath);
@@ -322,7 +323,7 @@ public class CaptureImageActivity extends AppCompatActivity {
                 super.onCaptureCompleted(session, request, result);
                 try {
                     createCameraPreview();
-                    // open crop screen
+                    // open preview activity
                     intentToPreviewActivity();
 
                 } catch (CameraAccessException e) {
