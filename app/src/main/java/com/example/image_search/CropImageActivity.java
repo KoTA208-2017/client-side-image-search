@@ -1,13 +1,27 @@
 package com.example.image_search;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
+
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class CropImageActivity extends AppCompatActivity {
-    Toolbar mTopToolbar;
+    CropImageView cropImageView;
+    Button doneBtn, backBtn;
+
     String imagePath;
 
     @Override
@@ -15,11 +29,70 @@ public class CropImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_image);
 
-        mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(mTopToolbar);
+        cropImageView = findViewById(R.id.cropImageView);
+        backBtn = findViewById(R.id.backBtn);
+        doneBtn = findViewById(R.id.doneBtn);
 
         Intent intent = getIntent();
-        imagePath = intent.getStringExtra("IMAGE_PATH");
+        final long milis;
 
+        imagePath = intent.getStringExtra("IMAGE_PATH");
+        cropImageView.setImageUriAsync(Uri.fromFile(new File(imagePath)));
+        milis = intent.getLongExtra("MILIS", 1);
+        
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = cropImage(milis);
+
+                //intent to preview image activity
+                backToPreviewActivity(file);
+            }
+        });
+    }
+
+    private File cropImage(long milis) {
+        Bitmap cropped = cropImageView.getCroppedImage();
+        
+        if (cropped != null) {
+            //create a file object using file path
+            File file = createTempFile(milis, cropped);
+
+            return file;
+        }
+        return null;
+    }
+
+    // open preview activity
+    private void backToPreviewActivity(File file){
+        Intent returnIntent = new Intent();
+
+        if (file != null) {
+            returnIntent.putExtra("result", file.getAbsolutePath());
+            setResult(Activity.RESULT_OK, returnIntent);
+        }
+
+        finish();
+    }
+
+    private File createTempFile(long milis, Bitmap bitmap) {
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                , milis +"_image.jpg");
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,70, bos);
+
+        //write the bytes in file
+        byte[] bitmapdata = bos.toByteArray();
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file, false);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 }
