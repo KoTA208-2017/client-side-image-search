@@ -34,6 +34,9 @@
         <activity
             android:name=".PreviewImageActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+        <activity
+            android:name=".SearchResult"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
