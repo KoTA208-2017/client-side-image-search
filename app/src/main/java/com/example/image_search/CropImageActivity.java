@@ -49,6 +49,16 @@ public class CropImageActivity extends AppCompatActivity {
                 backToPreviewActivity(file);
             }
         });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = cropImage(milis);
+
+                //intent to preview image activity
+                backToPreviewActivity(null);
+            }
+        });
     }
 
     private File cropImage(long milis) {
@@ -70,6 +80,9 @@ public class CropImageActivity extends AppCompatActivity {
         if (file != null) {
             returnIntent.putExtra("result", file.getAbsolutePath());
             setResult(Activity.RESULT_OK, returnIntent);
+        } else {
+            returnIntent.putExtra("result", false);
+            setResult(Activity.RESULT_CANCELED, returnIntent);
         }
 
         finish();
