@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class CropImageActivity extends AppCompatActivity {
     CropImageView cropImageView;
-    Button doneBtn, backBtn;
+    Button doneBtn, cancelBtn;
 
     String imagePath;
 
@@ -30,7 +30,7 @@ public class CropImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crop_image);
 
         cropImageView = findViewById(R.id.cropImageView);
-        backBtn = findViewById(R.id.backBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
         doneBtn = findViewById(R.id.doneBtn);
 
         Intent intent = getIntent();
