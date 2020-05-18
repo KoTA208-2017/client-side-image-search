@@ -131,7 +131,7 @@ public class CaptureImageActivity extends AppCompatActivity {
 
     // open preview activity
     private void intentToPreviewActivity(){
-        Intent mIntent = new Intent(CaptureImageActivity.this, CropImageActivity.class);
+        Intent mIntent = new Intent(CaptureImageActivity.this, PreviewImageActivity.class);
         mIntent.putExtra("IMAGE_PATH", imagePath);
         startActivity(mIntent);
     }
