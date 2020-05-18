@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -21,6 +22,8 @@ public class PreviewImageActivity extends AppCompatActivity {
 
     String sourceImagePath;
     String imagePath;
+    long milis;
+    final int LAUNCH_CROP_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,36 @@ public class PreviewImageActivity extends AppCompatActivity {
 
         imagePath = sourceImagePath;
 
+        //for cropped image name
+        milis = System.currentTimeMillis();
+
         // show image
         showImage();
+
+        cropBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePath = sourceImagePath;
+
+                Intent mIntent = new Intent(PreviewImageActivity.this, CropImageActivity.class);
+                mIntent.putExtra("IMAGE_PATH", imagePath);
+                mIntent.putExtra("MILIS", milis);
+
+                startActivityForResult(mIntent, LAUNCH_CROP_ACTIVITY);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LAUNCH_CROP_ACTIVITY) {
+            if(resultCode == Activity.RESULT_OK) {
+                imagePath = data.getStringExtra("result");
+                
+                showImage();
+            }
+        }
     }
 
     private void showImage() {
