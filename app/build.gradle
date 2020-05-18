@@ -29,4 +29,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation "com.google.android.material:material:1.2.0-alpha06"
+
+    //crop image needed
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.+'
 }
