@@ -4,6 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchResult">
+    tools:context=".SearchResult"
+        android:layout_gravity="top|fill_horizontal"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        tools:ignore="UselessParent">
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="Back"
+            android:paddingStart="0dp"
+            android:layout_marginStart="4dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:drawableLeft="@drawable/ic_back"
+            android:contentDescription="back to preview image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="8dp"
+        android:layout_below="@id/backBtn" >
+
+        <TextView
+            android:id="@+id/resultNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/poppins"
+            android:text="0 Product(s)" />
+
+        <Button
+            android:id="@+id/storeFilterBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="14dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:drawableRight="@drawable/ic_expand_more"
+            android:contentDescription="filter store"
+            android:text="Store" />
+
+        <Button
+            android:id="@+id/priceSortBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:drawableRight="@drawable/ic_sort"
+            android:contentDescription="sort price"
+            android:text="Price" />
+    </LinearLayout>
+
 
 </RelativeLayout>
