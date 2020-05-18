@@ -64,9 +64,9 @@ public class PreviewImageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LAUNCH_CROP_ACTIVITY) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 imagePath = data.getStringExtra("result");
-                
+
                 showImage();
             }
         }
@@ -85,10 +85,11 @@ public class PreviewImageActivity extends AppCompatActivity {
 
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
 
-        if(imgFile.exists()) {
+        if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             Bitmap imageBitmap;
-            if(orientation == 6) {
+
+            if (orientation == 6) {
                 imageBitmap = rotate(myBitmap);
             } else {
                 imageBitmap = myBitmap;
@@ -104,6 +105,7 @@ public class PreviewImageActivity extends AppCompatActivity {
 
         Bitmap rotatedBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight(), matrix, true);
         sourceBitmap.recycle();
+
         return rotatedBitmap;
     }
 
