@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Shescape.</string>
+    <string name="filter_ecommerce_dialog_title">Available E-Commerce</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="clear_all_label">Clear all</string>
+    <string name="ok_label">OK</string>
 
+    <string-array name="ecommerce_name">
+        <item>Berrybenka</item>
+        <item>Mapemall</item>
+        <item>Zalora</item>
+    </string-array>
 </resources>
