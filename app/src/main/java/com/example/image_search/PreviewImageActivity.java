@@ -58,6 +58,14 @@ public class PreviewImageActivity extends AppCompatActivity {
                 startActivityForResult(mIntent, LAUNCH_CROP_ACTIVITY);
             }
         });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mIntent = new Intent(PreviewImageActivity.this, SearchResult.class);
+                startActivity(mIntent);
+            }
+        });
     }
 
     @Override
