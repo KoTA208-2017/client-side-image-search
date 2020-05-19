@@ -45,10 +45,12 @@ public class SearchResult extends AppCompatActivity {
                             if (!userSelectedEcommerces.contains(position)) {
                                 userSelectedEcommerces.add(position);
                             }
-                        } else 
+                        } else {
                             if (userSelectedEcommerces.contains(position)) {
                                 userSelectedEcommerces.remove(position);
                             }
+                        }
+
                         }
                 });
 
