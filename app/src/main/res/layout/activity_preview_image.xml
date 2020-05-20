@@ -33,7 +33,7 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:text="Retake a picture"
-            android:drawableLeft="@drawable/ic_back"
+            android:drawableLeft="@drawable/ic_back_white"
             android:contentDescription="retake a picture" />
 
     </RelativeLayout>
