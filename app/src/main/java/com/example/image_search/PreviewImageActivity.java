@@ -82,7 +82,7 @@ public class PreviewImageActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mIntent = new Intent(PreviewImageActivity.this, CropImageActivity.class);
+                Intent mIntent = new Intent(PreviewImageActivity.this, SearchResult.class);
                 mIntent.putExtra("IMAGE_PATH", imagePath);
 
                 startActivityForResult(mIntent, LAUNCH_SEARCH_RESULT_ACTIVITY);
