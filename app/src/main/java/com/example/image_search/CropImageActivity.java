@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -28,6 +29,15 @@ public class CropImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_image);
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
 
         cropImageView = findViewById(R.id.cropImageView);
         cancelBtn = findViewById(R.id.cancelBtn);
