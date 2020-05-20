@@ -47,7 +47,7 @@ public class SearchResult extends AppCompatActivity {
                             }
                         } else {
                             if (userSelectedEcommerces.contains(position)) {
-                                userSelectedEcommerces.remove(position);
+                                userSelectedEcommerces.remove(new Integer(position));
                             }
                         }
 
