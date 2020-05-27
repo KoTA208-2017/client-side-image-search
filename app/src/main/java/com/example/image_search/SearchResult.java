@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class SearchResult extends AppCompatActivity {
     Button storeFilterBtn;
@@ -30,6 +33,19 @@ public class SearchResult extends AppCompatActivity {
 
         ecommerceList = getResources().getStringArray(R.array.ecommerce_name);
         checkedEcommerces = new boolean[ecommerceList.length];
+
+        Properties prop = new Properties();
+
+        try {
+            //load a properties file
+            prop.load(new FileInputStream("config.properties"));
+
+            //get the property value and print it out
+            System.out.println(prop.getProperty("IP"));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
         storeFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
