@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera2.full" />
 
@@ -14,8 +15,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <activity android:name=".EmptyResultActivity"></activity>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/network_security_config" />
+
+        <activity android:name=".EmptyResultActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
@@ -36,7 +42,7 @@
             android:name=".PreviewImageActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SearchResult"
+            android:name=".SearchResultActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
