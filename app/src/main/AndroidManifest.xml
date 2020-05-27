@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <activity android:name=".EmptyResultActivity"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
@@ -33,7 +34,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".PreviewImageActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SearchResult"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
