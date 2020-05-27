@@ -10,12 +10,13 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class PreviewImageActivity extends AppCompatActivity {
@@ -82,7 +83,7 @@ public class PreviewImageActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mIntent = new Intent(PreviewImageActivity.this, SearchResult.class);
+                Intent mIntent = new Intent(PreviewImageActivity.this, SearchResultActivity.class);
                 mIntent.putExtra("IMAGE_PATH", imagePath);
 
                 startActivityForResult(mIntent, LAUNCH_SEARCH_RESULT_ACTIVITY);
@@ -127,6 +128,7 @@ public class PreviewImageActivity extends AppCompatActivity {
 
             if (orientation == 6) {
                 imageBitmap = rotate(myBitmap);
+                replaceImageFile(imagePath, imageBitmap);
             } else {
                 imageBitmap = myBitmap;
             }
@@ -143,6 +145,25 @@ public class PreviewImageActivity extends AppCompatActivity {
         sourceBitmap.recycle();
 
         return rotatedBitmap;
+    }
+
+    private File replaceImageFile(String imagePath, Bitmap bitmap) {
+        File file = new File(imagePath);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        //write the bytes in file
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file, false);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
 }
