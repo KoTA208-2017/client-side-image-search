@@ -4,27 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchResult"
-        android:layout_gravity="top|fill_horizontal"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        tools:ignore="UselessParent">
+    tools:context=".SearchResultActivity"
+    android:layout_gravity="top|fill_horizontal"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    tools:ignore="UselessParent">
 
-        <Button
-            android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="Back"
-            android:paddingStart="0dp"
-            android:layout_marginStart="4dp"
-            android:background="@android:color/transparent"
-            android:textColor="@color/colorPrimaryDark"
-            android:textAllCaps="false"
-            android:drawableLeft="@drawable/ic_back"
-            android:contentDescription="back to preview image" />
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="Back"
+        android:paddingStart="0dp"
+        android:layout_marginStart="4dp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/ic_back"
+        android:contentDescription="back to preview image" />
 
     <LinearLayout
+        android:id="@+id/informationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -71,11 +72,17 @@
         android:id="@+id/testFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="@color/colorAccent"
-        android:text="TextView" />
+        android:text="emptyresult" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_below="@+id/informationBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </RelativeLayout>

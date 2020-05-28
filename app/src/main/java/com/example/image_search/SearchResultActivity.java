@@ -2,10 +2,14 @@ package com.example.image_search;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,9 +17,10 @@ import android.widget.Toast;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-public class SearchResult extends AppCompatActivity {
+public class SearchResultActivity extends AppCompatActivity {
     Button storeFilterBtn;
     TextView testFilter;
 
@@ -23,9 +28,26 @@ public class SearchResult extends AppCompatActivity {
     boolean[] checkedEcommerces;
     ArrayList<Integer> userSelectedEcommerces = new ArrayList<>();
 
+    RecyclerView mRecyclerView;
+    List<Product> mProductList;
+    RecyclerViewAdapter myAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_search_result);
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
+
+        Intent intent = getIntent();
+        String imagePath = intent.getStringExtra("IMAGE_PATH");
         setContentView(R.layout.activity_search_result);
 
         storeFilterBtn = findViewById(R.id.storeFilterBtn);
@@ -47,16 +69,35 @@ public class SearchResult extends AppCompatActivity {
             ex.printStackTrace();
         }
 
+        int spanCount = 2;
+        int spacing = 10;
+        boolean includeEdge = true;
+
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(SearchResultActivity.this, spanCount);
+
+        mRecyclerView = findViewById(R.id.recyclerview);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+
+        uploadImage(imagePath);
+
+        testFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchResultActivity.this, EmptyResultActivity.class);
+                startActivity(intent);
+            }
+        });
+        
         storeFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SearchResult.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
                 builder.setTitle(R.string.filter_ecommerce_dialog_title);
                 builder.setMultiChoiceItems(ecommerceList, checkedEcommerces,
                     new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                        Toast.makeText(getApplicationContext(), (position+": "+ecommerceList[position]+" is "+isChecked), Toast.LENGTH_LONG).show();
                         if (isChecked) {
                             if (!userSelectedEcommerces.contains(position)) {
                                 userSelectedEcommerces.add(position);
@@ -81,8 +122,6 @@ public class SearchResult extends AppCompatActivity {
                                 item = item + ", ";
                             }
                         }
-
-                        testFilter.setText(item);
                     }
                 });
 
@@ -99,7 +138,6 @@ public class SearchResult extends AppCompatActivity {
                         for (int i = 0; i < checkedEcommerces.length; i++) {
                             checkedEcommerces[i] = false;
                             userSelectedEcommerces.clear();
-                            testFilter.setText("");
                         }
                     }
                 });
@@ -109,4 +147,33 @@ public class SearchResult extends AppCompatActivity {
             }
         });
     }
+
+    private void uploadImage(String imagePath) {
+        Product product1 = new Product(1, "Long Dress", "Berry Benka","https://berrybenka.com/clothing/tops/100855/dale-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/qYGmHyR/281021-febry-basic-shirt-beige-cream-1-PUV2.jpg");
+        Product product2 = new Product(2, "Pure Cotton Polo Shirt", "Berry Benka", "https://berrybenka.com/clothing/tops/102345/chuwa-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/n03T2qx/280735-fimanda-flare-dress-brown-brown-IMW9-B.jpg");
+        Product product3 = new Product(3, "Long Sleeve Top", "MapeMall", "https://berrybenka.com/clothing/tops/102347/chuv-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/KsQ2D7K/280370-denice-linen-blouse-cream-cream-AR0-HG.jpg");
+        Product product4 = new Product(4, "Floral Print Waisted", "Zalora", "https://berrybenka.com/clothing/tops/104726/ellie-blue-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/0Y073M1/112219-gw-freital-top-in-cream-wheat-E0-Y3-J.jpg");
+        Product product5 = new Product(5, "Dogtooth Print Jersey", "Berry Benka", "https://berrybenka.com/clothing/tops/104727/ellie-grey-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/VVyMDfg/272915-xickey-long-sleeves-upper-cream-cream-GGC3-X.jpg");
+        Product product6 = new Product(6, "Pure Linen Popover", "Zalora", "https://berrybenka.com/clothing/tops/104728/ellie-red-pleats-top?trc_sale=clothing+blouse",234500, "https://i.ibb.co/Cz1gXhd/279731-misty-button-blouse-nude-cream-XP18-X.jpg");
+
+        mProductList = new ArrayList<>();
+        mProductList.add(product1);
+        mProductList.add(product2);
+        mProductList.add(product3);
+        mProductList.add(product4);
+        mProductList.add(product5);
+        mProductList.add(product6);
+
+        myAdapter = new RecyclerViewAdapter(SearchResultActivity.this, mProductList);
+        mRecyclerView.setAdapter(myAdapter);
+
+        myAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                myAdapter.notifyItemChanged(position);
+            }
+        });
+    }
+
+
 }
