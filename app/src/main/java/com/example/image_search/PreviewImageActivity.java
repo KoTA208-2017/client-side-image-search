@@ -100,12 +100,6 @@ public class PreviewImageActivity extends AppCompatActivity {
 
                 showImage();
             }
-        } else  {
-            if (resultCode == Activity.RESULT_OK) {
-                imagePath = data.getStringExtra("result");
-
-                showImage();
-            }
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class SearchResultActivity extends AppCompatActivity {
-    Button storeFilterBtn;
+    Button storeFilterBtn, backBtn;
     TextView testFilter;
 
     String[] ecommerceList;
@@ -51,6 +52,7 @@ public class SearchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_result);
 
         storeFilterBtn = findViewById(R.id.storeFilterBtn);
+        backBtn = findViewById(R.id.backBtn);
         testFilter = findViewById(R.id.testFilter);
 
         ecommerceList = getResources().getStringArray(R.array.ecommerce_name);
@@ -86,6 +88,17 @@ public class SearchResultActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SearchResultActivity.this, EmptyResultActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", false);
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+
+                finish();
             }
         });
         
