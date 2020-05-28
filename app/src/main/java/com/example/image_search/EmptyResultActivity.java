@@ -15,7 +15,7 @@ public class EmptyResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_result);
-        
+
         // clear FLAG_TRANSLUCENT_STATUS flag:
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
