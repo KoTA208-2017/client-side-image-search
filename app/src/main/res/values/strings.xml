@@ -4,10 +4,18 @@
     <string name="dismiss_label">Dismiss</string>
     <string name="clear_all_label">Clear all</string>
     <string name="ok_label">OK</string>
+    <string name="cancel_label">CANCEL</string>
+    <string name="sort_product_dialog_title">Sort by</string>
 
     <string-array name="ecommerce_name">
         <item>Berrybenka</item>
         <item>Mapemall</item>
         <item>Zalora</item>
+    </string-array>
+
+    <string-array name="sort_choices">
+        <item>Best Match</item>
+        <item>Highest Price</item>
+        <item>Lowest Price</item>
     </string-array>
 </resources>

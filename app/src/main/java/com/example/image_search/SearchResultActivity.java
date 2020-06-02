@@ -22,12 +22,16 @@ import java.util.List;
 import java.util.Properties;
 
 public class SearchResultActivity extends AppCompatActivity {
-    Button storeFilterBtn, backBtn;
+    Button storeFilterBtn, backBtn, sortBtn;
     TextView testFilter;
 
     String[] ecommerceList;
     boolean[] checkedEcommerces;
     ArrayList<Integer> userSelectedEcommerces = new ArrayList<>();
+
+    String[] sortList;
+    int selectedSort;
+    int userSelectedSort;
 
     RecyclerView mRecyclerView;
     List<Product> mProductList;
@@ -54,9 +58,13 @@ public class SearchResultActivity extends AppCompatActivity {
         storeFilterBtn = findViewById(R.id.storeFilterBtn);
         backBtn = findViewById(R.id.backBtn);
         testFilter = findViewById(R.id.testFilter);
+        sortBtn =  findViewById(R.id.sortBtn);
 
         ecommerceList = getResources().getStringArray(R.array.ecommerce_name);
         checkedEcommerces = new boolean[ecommerceList.length];
+
+        sortList = getResources().getStringArray(R.array.sort_choices);
+        selectedSort = 0;
 
         Properties prop = new Properties();
 
@@ -99,6 +107,51 @@ public class SearchResultActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_CANCELED, returnIntent);
 
                 finish();
+            }
+        });
+
+        sortBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                showSortAlertDialog();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchResultActivity.this);
+                alertDialog.setTitle(R.string.sort_product_dialog_title);
+                alertDialog.setSingleChoiceItems(sortList, selectedSort, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userSelectedSort = which;
+                    }
+                });
+
+                alertDialog.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        selectedSort = userSelectedSort;
+                        switch (userSelectedSort) {
+                            case 0:
+                                Toast.makeText(SearchResultActivity.this, "best match", Toast.LENGTH_LONG).show();
+                                break;
+                            case 1:
+                                Toast.makeText(SearchResultActivity.this, "highest price", Toast.LENGTH_LONG).show();
+                                break;
+                            case 2:
+                                Toast.makeText(SearchResultActivity.this, "lowest price", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                });
+
+                alertDialog.setCancelable(false);
+
+                alertDialog.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog alert = alertDialog.create();
+                alert.show();
             }
         });
         
@@ -159,6 +212,10 @@ public class SearchResultActivity extends AppCompatActivity {
                 mDialog.show();
             }
         });
+    }
+
+    private void showSortAlertDialog() {
+
     }
 
     private void uploadImage(String imagePath) {
