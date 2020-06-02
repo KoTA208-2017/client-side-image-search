@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -174,7 +175,7 @@ public class SearchResultActivity extends AppCompatActivity {
                             }
                         }
 
-                        }
+                    }
                 });
 
                 builder.setCancelable(false);
@@ -191,7 +192,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                 });
 
-                builder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         dialogInterface.dismiss();
@@ -203,8 +204,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int which) {
                         for (int i = 0; i < checkedEcommerces.length; i++) {
                             checkedEcommerces[i] = false;
-                            userSelectedEcommerces.clear();
                         }
+                        userSelectedEcommerces.clear();
                     }
                 });
 
