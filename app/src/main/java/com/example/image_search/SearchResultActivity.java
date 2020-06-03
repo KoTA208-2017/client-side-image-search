@@ -114,55 +114,64 @@ public class SearchResultActivity extends AppCompatActivity {
         sortBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showSortAlertDialog();
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchResultActivity.this);
-                alertDialog.setTitle(R.string.sort_product_dialog_title);
-                alertDialog.setSingleChoiceItems(sortList, selectedSort, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        userSelectedSort = which;
-                    }
-                });
-
-                alertDialog.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        selectedSort = userSelectedSort;
-                        switch (userSelectedSort) {
-                            case 0:
-                                Toast.makeText(SearchResultActivity.this, "best match", Toast.LENGTH_LONG).show();
-                                break;
-                            case 1:
-                                Toast.makeText(SearchResultActivity.this, "highest price", Toast.LENGTH_LONG).show();
-                                break;
-                            case 2:
-                                Toast.makeText(SearchResultActivity.this, "lowest price", Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                });
-
-                alertDialog.setCancelable(false);
-
-                alertDialog.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                AlertDialog alert = alertDialog.create();
-                alert.show();
+                showSortAlertDialog();
             }
         });
-        
+
         storeFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
-                builder.setTitle(R.string.filter_ecommerce_dialog_title);
-                builder.setMultiChoiceItems(ecommerceList, checkedEcommerces,
-                    new DialogInterface.OnMultiChoiceClickListener() {
+                showFilterStoreDialog();
+            }
+        });
+    }
+
+    private void showSortAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchResultActivity.this);
+        alertDialog.setTitle(R.string.sort_product_dialog_title);
+        alertDialog.setSingleChoiceItems(sortList, selectedSort, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                userSelectedSort = which;
+            }
+        });
+
+        alertDialog.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                selectedSort = userSelectedSort;
+                switch (userSelectedSort) {
+                    case 0:
+                        Toast.makeText(SearchResultActivity.this, "best match", Toast.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        Toast.makeText(SearchResultActivity.this, "highest price", Toast.LENGTH_LONG).show();
+                        break;
+                    case 2:
+                        Toast.makeText(SearchResultActivity.this, "lowest price", Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        });
+
+        alertDialog.setCancelable(false);
+
+        alertDialog.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+    }
+
+    private void showFilterStoreDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
+        builder.setTitle(R.string.filter_ecommerce_dialog_title);
+        builder.setMultiChoiceItems(ecommerceList, checkedEcommerces,
+                new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                         if (isChecked) {
@@ -178,48 +187,43 @@ public class SearchResultActivity extends AppCompatActivity {
                     }
                 });
 
-                builder.setCancelable(false);
-                builder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        String item = "";
-                        for (int i = 0; i < userSelectedEcommerces.size(); i++) {
-                            item = item + ecommerceList[userSelectedEcommerces.get(i)];
-                            if(i != userSelectedEcommerces.size() - 1) {
-                                item = item + ", ";
-                            }
-                        }
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                String item = "";
+                for (int i = 0; i < userSelectedEcommerces.size(); i++) {
+                    item = item + ecommerceList[userSelectedEcommerces.get(i)];
+                    if(i != userSelectedEcommerces.size() - 1) {
+                        item = item + ", ";
                     }
-                });
-
-                builder.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                builder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        for (int i = 0; i < checkedEcommerces.length; i++) {
-                            checkedEcommerces[i] = false;
-                        }
-                        userSelectedEcommerces.clear();
-                    }
-                });
-
-                AlertDialog mDialog = builder.create();
-                mDialog.show();
+                }
             }
         });
-    }
 
-    private void showSortAlertDialog() {
+        builder.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.dismiss();
+            }
+        });
 
+        builder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                for (int i = 0; i < checkedEcommerces.length; i++) {
+                    checkedEcommerces[i] = false;
+                }
+                userSelectedEcommerces.clear();
+            }
+        });
+
+        AlertDialog mDialog = builder.create();
+        mDialog.show();
     }
 
     private void uploadImage(String imagePath) {
+
         Product product1 = new Product(1, "Long Dress", "Berry Benka","https://berrybenka.com/clothing/tops/100855/dale-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/qYGmHyR/281021-febry-basic-shirt-beige-cream-1-PUV2.jpg");
         Product product2 = new Product(2, "Pure Cotton Polo Shirt", "Berry Benka", "https://berrybenka.com/clothing/tops/102345/chuwa-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/n03T2qx/280735-fimanda-flare-dress-brown-brown-IMW9-B.jpg");
         Product product3 = new Product(3, "Long Sleeve Top", "MapeMall", "https://berrybenka.com/clothing/tops/102347/chuv-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/KsQ2D7K/280370-denice-linen-blouse-cream-cream-AR0-HG.jpg");
