@@ -9,18 +9,30 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchResultActivity extends AppCompatActivity {
     Button storeFilterBtn, backBtn, sortBtn;
@@ -37,6 +49,8 @@ public class SearchResultActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     List<Product> mProductList;
     RecyclerViewAdapter myAdapter;
+
+    Properties prop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +81,7 @@ public class SearchResultActivity extends AppCompatActivity {
         sortList = getResources().getStringArray(R.array.sort_choices);
         selectedSort = 0;
 
-        Properties prop = new Properties();
-
-        try {
-            //load a properties file
-            prop.load(new FileInputStream("config.properties"));
-
-            //get the property value and print it out
-            System.out.println(prop.getProperty("IP"));
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        prop = new Properties();
 
         int spanCount = 2;
         int spacing = 10;
@@ -223,13 +226,53 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void uploadImage(String imagePath) {
+        String BASE_URL = "";
+        try {
+            BASE_URL = "http://" + Util.getProperty("IP",getApplicationContext()) + "/";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        Product product1 = new Product(1, "Long Dress", "Berry Benka","https://berrybenka.com/clothing/tops/100855/dale-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/qYGmHyR/281021-febry-basic-shirt-beige-cream-1-PUV2.jpg");
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiService service = retrofit.create(ApiService.class);
+
+        //Create a file object using file path
+        File file = new File(imagePath);
+        // Create a request body with file and image media type
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+        // Create MultipartBody.Part using file request-body,file name and part name
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), fileReqBody);
+
+        Log.d("image", file.getName());
+
+        showDataDummy();
+
+        Call<Result> call = service.uploadImage(part);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                //get response
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) { }
+        });
+    }
+
+    private void showDataDummy() {
+        Product product1 = new Product(1, "Long Dress", "Berry Benka", "https://berrybenka.com/clothing/tops/100855/dale-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/qYGmHyR/281021-febry-basic-shirt-beige-cream-1-PUV2.jpg");
         Product product2 = new Product(2, "Pure Cotton Polo Shirt", "Berry Benka", "https://berrybenka.com/clothing/tops/102345/chuwa-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/n03T2qx/280735-fimanda-flare-dress-brown-brown-IMW9-B.jpg");
         Product product3 = new Product(3, "Long Sleeve Top", "MapeMall", "https://berrybenka.com/clothing/tops/102347/chuv-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/KsQ2D7K/280370-denice-linen-blouse-cream-cream-AR0-HG.jpg");
         Product product4 = new Product(4, "Floral Print Waisted", "Zalora", "https://berrybenka.com/clothing/tops/104726/ellie-blue-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/0Y073M1/112219-gw-freital-top-in-cream-wheat-E0-Y3-J.jpg");
         Product product5 = new Product(5, "Dogtooth Print Jersey", "Berry Benka", "https://berrybenka.com/clothing/tops/104727/ellie-grey-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/VVyMDfg/272915-xickey-long-sleeves-upper-cream-cream-GGC3-X.jpg");
-        Product product6 = new Product(6, "Pure Linen Popover", "Zalora", "https://berrybenka.com/clothing/tops/104728/ellie-red-pleats-top?trc_sale=clothing+blouse",234500, "https://i.ibb.co/Cz1gXhd/279731-misty-button-blouse-nude-cream-XP18-X.jpg");
+        Product product6 = new Product(6, "Pure Linen Popover", "Zalora", "https://berrybenka.com/clothing/tops/104728/ellie-red-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/Cz1gXhd/279731-misty-button-blouse-nude-cream-XP18-X.jpg");
 
         mProductList = new ArrayList<>();
         mProductList.add(product1);
