@@ -88,7 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter <RecyclerViewAdapt
         }
 
         Glide.with(this.mContext)
-                .load(mProductList.get(i).getImage())
+                .load(mProductList.get(i).getImageUrl())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImage);
 

@@ -328,13 +328,32 @@ public class SearchResultActivity extends AppCompatActivity {
 
         Log.d("image", file.getName());
 
-        showDataDummy();
-
+//        showDataDummy();
+        // Set up progress before call
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(SearchResultActivity.this);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Please wait....");
+        progressDialog.setTitle("Fetching Data");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // show it
+        progressDialog.show();
         Call<Result> call = service.uploadImage(part);
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
+                if (response.code() == 200) {
+                    //get response
+                    Log.d("message", "succes");
+                    // close it after response
+                    mProductList = response.body().getResult();
+                    //set result number
+                    setResultNumber(mProductList.size());
+                    updateRecyclerView(mProductList);
+                } else {
 
+                }
+                progressDialog.dismiss();
             }
 
             @Override
@@ -342,6 +361,11 @@ public class SearchResultActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setResultNumber(int number){
+        TextView result = findViewById(R.id.resultNumber);
+        result.setText(number+" Product(s)");
     }
 
     private void showDataDummy() {
