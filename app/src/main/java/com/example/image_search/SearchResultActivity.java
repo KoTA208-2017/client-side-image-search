@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +17,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -154,6 +160,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         Toast.makeText(SearchResultActivity.this, "lowest price", Toast.LENGTH_LONG).show();
                         break;
                 }
+                filterSortAction();
             }
         });
 
@@ -171,6 +178,7 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void showFilterStoreDialog() {
+        final ArrayList<Integer> tempSelectedEcommerces = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
         builder.setTitle(R.string.filter_ecommerce_dialog_title);
         builder.setMultiChoiceItems(ecommerceList, checkedEcommerces,
@@ -180,10 +188,12 @@ public class SearchResultActivity extends AppCompatActivity {
                         if (isChecked) {
                             if (!userSelectedEcommerces.contains(position)) {
                                 userSelectedEcommerces.add(position);
+                                tempSelectedEcommerces.add(position);
                             }
                         } else {
                             if (userSelectedEcommerces.contains(position)) {
                                 userSelectedEcommerces.remove(new Integer(position));
+                                tempSelectedEcommerces.add(position);
                             }
                         }
 
@@ -201,12 +211,24 @@ public class SearchResultActivity extends AppCompatActivity {
                         item = item + ", ";
                     }
                 }
+                filterSortAction();
             }
         });
 
         builder.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
+                for (Integer num : tempSelectedEcommerces) {
+                    if(checkedEcommerces[num] == true){
+                        userSelectedEcommerces.remove(new Integer(num));
+                        checkedEcommerces[num] = false;
+                    }
+                    else{
+                        userSelectedEcommerces.add(num);
+                        checkedEcommerces[num] = true;
+                    }
+                }
+                tempSelectedEcommerces.clear();
                 dialogInterface.dismiss();
             }
         });
@@ -218,11 +240,65 @@ public class SearchResultActivity extends AppCompatActivity {
                     checkedEcommerces[i] = false;
                 }
                 userSelectedEcommerces.clear();
+                filterSortAction();
             }
         });
 
         AlertDialog mDialog = builder.create();
         mDialog.show();
+    }
+
+    // Filter and Sort Action
+    private void filterSortAction(){
+        List<Product> productFilterList;
+
+        if(userSelectedEcommerces.size() == 0 || userSelectedEcommerces.size() == 3) {
+            productFilterList = new ArrayList<>(mProductList);
+        }
+        else{
+            productFilterList = new ArrayList<>();
+            for (Product p : mProductList) {
+                for (int i = 0; i < userSelectedEcommerces.size(); i++) {
+                    if (p.getSiteName() != null && p.getSiteName().contains(ecommerceList[userSelectedEcommerces.get(i)])) {
+                        productFilterList.add(p);
+                    }
+                }
+            }
+        }
+
+        switch (selectedSort) {
+            case 1:
+                sort(productFilterList, false);
+                break;
+            case 2:
+                sort(productFilterList, true);
+                break;
+        }
+        updateRecyclerView(productFilterList);
+    }
+
+    public void sort(List list, final boolean asc){
+        Collections.sort(list, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                if(asc)// jika pengurutan secara ascending
+                    return p1.getPrice() - p2.getPrice();
+                else // jika pengurutan secara descending
+                    return p2.getPrice() - p1.getPrice();
+            }
+
+        });
+    }
+
+    private void updateRecyclerView(List productList){
+        myAdapter = new RecyclerViewAdapter(SearchResultActivity.this, productList);
+        mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                myAdapter.notifyItemChanged(position);
+            }
+        });
     }
 
     private void uploadImage(String imagePath) {
@@ -258,21 +334,23 @@ public class SearchResultActivity extends AppCompatActivity {
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                //get response
+
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) { }
+            public void onFailure(Call<Result> call, Throwable t) {
+
+            }
         });
     }
 
     private void showDataDummy() {
-        Product product1 = new Product(1, "Long Dress", "Berry Benka", "https://berrybenka.com/clothing/tops/100855/dale-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/qYGmHyR/281021-febry-basic-shirt-beige-cream-1-PUV2.jpg");
-        Product product2 = new Product(2, "Pure Cotton Polo Shirt", "Berry Benka", "https://berrybenka.com/clothing/tops/102345/chuwa-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/n03T2qx/280735-fimanda-flare-dress-brown-brown-IMW9-B.jpg");
-        Product product3 = new Product(3, "Long Sleeve Top", "MapeMall", "https://berrybenka.com/clothing/tops/102347/chuv-top?trc_sale=clothing+tank-top", 234500, "https://i.ibb.co/KsQ2D7K/280370-denice-linen-blouse-cream-cream-AR0-HG.jpg");
-        Product product4 = new Product(4, "Floral Print Waisted", "Zalora", "https://berrybenka.com/clothing/tops/104726/ellie-blue-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/0Y073M1/112219-gw-freital-top-in-cream-wheat-E0-Y3-J.jpg");
-        Product product5 = new Product(5, "Dogtooth Print Jersey", "Berry Benka", "https://berrybenka.com/clothing/tops/104727/ellie-grey-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/VVyMDfg/272915-xickey-long-sleeves-upper-cream-cream-GGC3-X.jpg");
-        Product product6 = new Product(6, "Pure Linen Popover", "Zalora", "https://berrybenka.com/clothing/tops/104728/ellie-red-pleats-top?trc_sale=clothing+blouse", 234500, "https://i.ibb.co/Cz1gXhd/279731-misty-button-blouse-nude-cream-XP18-X.jpg");
+        Product product1 = new Product(1, "Long Dress", "Berry Benka", "https://berrybenka.com/clothing/tops/100855/dale-top?trc_sale=clothing+blouse", 200500, "281021-febry-basic-shirt-beige-cream-1-PUV2.jpg", "https://i.ibb.co/qYGmHyR/281021-febry-basic-shirt-beige-cream-1-PUV2.jpg");
+        Product product2 = new Product(2, "Pure Cotton Polo Shirt", "Berry Benka", "https://berrybenka.com/clothing/tops/102345/chuwa-top?trc_sale=clothing+tank-top", 230500, "280735-fimanda-flare-dress-brown-brown-IMW9-B.jpg","https://i.ibb.co/n03T2qx/280735-fimanda-flare-dress-brown-brown-IMW9-B.jpg");
+        Product product3 = new Product(3, "Long Sleeve Top", "MapeMall", "https://berrybenka.com/clothing/tops/102347/chuv-top?trc_sale=clothing+tank-top", 204500, "280370-denice-linen-blouse-cream-cream-AR0-HG.jpg","https://i.ibb.co/KsQ2D7K/280370-denice-linen-blouse-cream-cream-AR0-HG.jpg");
+        Product product4 = new Product(4, "Floral Print Waisted", "Zalora", "https://berrybenka.com/clothing/tops/104726/ellie-blue-pleats-top?trc_sale=clothing+blouse", 134500, "112219-gw-freital-top-in-cream-wheat-E0-Y3-J.jpg","https://i.ibb.co/0Y073M1/112219-gw-freital-top-in-cream-wheat-E0-Y3-J.jpg");
+        Product product5 = new Product(5, "Dogtooth Print Jersey", "Berry Benka", "https://berrybenka.com/clothing/tops/104727/ellie-grey-pleats-top?trc_sale=clothing+blouse", 334500, "VVyMDfg/272915-xickey-long-sleeves-upper-cream-cream-GGC3-X.jpg","https://i.ibb.co/VVyMDfg/272915-xickey-long-sleeves-upper-cream-cream-GGC3-X.jpg");
+        Product product6 = new Product(6, "Pure Linen Popover", "Zalora", "https://berrybenka.com/clothing/tops/104728/ellie-red-pleats-top?trc_sale=clothing+blouse", 434500, "279731-misty-button-blouse-nude-cream-XP18-X.jpg", "https://i.ibb.co/Cz1gXhd/279731-misty-button-blouse-nude-cream-XP18-X.jpg");
 
         mProductList = new ArrayList<>();
         mProductList.add(product1);
@@ -282,15 +360,7 @@ public class SearchResultActivity extends AppCompatActivity {
         mProductList.add(product5);
         mProductList.add(product6);
 
-        myAdapter = new RecyclerViewAdapter(SearchResultActivity.this, mProductList);
-        mRecyclerView.setAdapter(myAdapter);
-
-        myAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                myAdapter.notifyItemChanged(position);
-            }
-        });
+        updateRecyclerView(mProductList);
     }
 
 
