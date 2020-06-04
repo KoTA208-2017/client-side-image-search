@@ -274,6 +274,8 @@ public class SearchResultActivity extends AppCompatActivity {
                 sort(productFilterList, true);
                 break;
         }
+        //set result number
+        setResultNumber(productFilterList.size());
         updateRecyclerView(productFilterList);
     }
 
@@ -351,14 +353,15 @@ public class SearchResultActivity extends AppCompatActivity {
                     setResultNumber(mProductList.size());
                     updateRecyclerView(mProductList);
                 } else {
-
+                    intentToEmptyActivity();
                 }
                 progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-
+                progressDialog.dismiss();
+                intentToEmptyActivity();
             }
         });
     }
@@ -366,6 +369,11 @@ public class SearchResultActivity extends AppCompatActivity {
     private void setResultNumber(int number){
         TextView result = findViewById(R.id.resultNumber);
         result.setText(number+" Product(s)");
+    }
+
+    private void intentToEmptyActivity(){
+        Intent intent = new Intent(SearchResultActivity.this, EmptyResultActivity.class);
+        startActivity(intent);
     }
 
     private void showDataDummy() {

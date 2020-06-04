@@ -8,8 +8,8 @@
     <string name="sort_product_dialog_title">Sort by</string>
 
     <string-array name="ecommerce_name">
-        <item>Berrybenka</item>
-        <item>Mapemall</item>
+        <item>Berry Benka</item>
+        <item>MapeMall</item>
         <item>Zalora</item>
     </string-array>
 
