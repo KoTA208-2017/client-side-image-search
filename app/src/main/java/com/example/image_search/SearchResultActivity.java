@@ -78,7 +78,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
         storeFilterBtn = findViewById(R.id.storeFilterBtn);
         backBtn = findViewById(R.id.backBtn);
-        testFilter = findViewById(R.id.testFilter);
         sortBtn =  findViewById(R.id.sortBtn);
 
         ecommerceList = getResources().getStringArray(R.array.ecommerce_name);
@@ -100,14 +99,6 @@ public class SearchResultActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
 
         uploadImage(imagePath);
-
-        testFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SearchResultActivity.this, EmptyResultActivity.class);
-                startActivity(intent);
-            }
-        });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
