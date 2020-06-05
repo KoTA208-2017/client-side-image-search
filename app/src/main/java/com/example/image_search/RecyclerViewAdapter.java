@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.io.IOException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter <RecyclerViewAdapt
     @NonNull
     private Context mContext;
     private List< Product > mProductList;
-    public static final String IMG_URL = "http://192.168.43.131:5000/image/";
     private OnItemClickListener mListener;
+
+    String IMG_URL = "";
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -79,8 +81,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter <RecyclerViewAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ProductHolder viewHolder, int i) {
+        try {
+            IMG_URL = "http://" + Util.getProperty("IP", mContext.getApplicationContext()) + "/image/";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Glide.with(this.mContext)
-                .load(mProductList.get(i).getImage())
+                .load(mProductList.get(i).getImageUrl())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImage);
 
