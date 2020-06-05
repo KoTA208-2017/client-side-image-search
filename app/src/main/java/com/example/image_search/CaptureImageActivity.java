@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.ImageFormat;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -30,6 +31,7 @@ import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -66,6 +68,8 @@ public class CaptureImageActivity extends AppCompatActivity {
     CaptureRequest.Builder captureRequestBuilder;
 
     private Size imageDimensions;
+    private int previewWidth;
+    private int previewHeight;
     private File file;
     Handler nBackgroundHandler;
     HandlerThread nBackgroundThread;
@@ -195,7 +199,7 @@ public class CaptureImageActivity extends AppCompatActivity {
 
     private void createCameraPreview() throws CameraAccessException {
         SurfaceTexture texture = textureView.getSurfaceTexture();
-        texture.setDefaultBufferSize(imageDimensions.getWidth(), imageDimensions.getHeight());
+        texture.setDefaultBufferSize(previewHeight, previewWidth);
         Surface surface = new Surface(texture);
 
         captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
@@ -243,10 +247,10 @@ public class CaptureImageActivity extends AppCompatActivity {
         cameraId = manager.getCameraIdList()[0];
 
         CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
-
         StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        imageDimensions = map.getOutputSizes(SurfaceTexture.class)[0];
-
+//        imageDimensions = map.getOutputSizes(SurfaceTexture.class)[0];
+        // get screen size of device
+        getPreferredPreviewSize();
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
@@ -256,6 +260,15 @@ public class CaptureImageActivity extends AppCompatActivity {
 
         //manager openCamera
         manager.openCamera(cameraId, stateCallback, null);
+    }
+
+    private void getPreferredPreviewSize(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+
+        previewWidth = size.x;
+        previewHeight = size.y;
     }
 
     private void takePicture() throws CameraAccessException {
@@ -269,10 +282,10 @@ public class CaptureImageActivity extends AppCompatActivity {
 
         jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
 
-        final int IMG_WIDTH = 1280;
-        final int IMG_HEIGHT = 960;
+        final int img_width = previewHeight;
+        final int img_height = previewWidth;
 
-        ImageReader reader = ImageReader.newInstance(IMG_WIDTH,IMG_HEIGHT,ImageFormat.JPEG, 1);
+        ImageReader reader = ImageReader.newInstance(img_width,img_height,ImageFormat.JPEG, 1);
 
         List<Surface> outputSurfaces = new ArrayList<>(2);
         outputSurfaces.add(reader.getSurface());

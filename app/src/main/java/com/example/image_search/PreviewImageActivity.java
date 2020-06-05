@@ -123,8 +123,10 @@ public class PreviewImageActivity extends AppCompatActivity {
             if (orientation == 6) {
                 imageBitmap = rotate(myBitmap);
                 replaceImageFile(imagePath, imageBitmap);
+                imageView.setScaleType(ImageView.ScaleType.MATRIX);
             } else {
                 imageBitmap = myBitmap;
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             }
 
             imageView.setImageBitmap(imageBitmap);
