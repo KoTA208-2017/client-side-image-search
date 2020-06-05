@@ -274,9 +274,9 @@ public class SearchResultActivity extends AppCompatActivity {
         Collections.sort(list, new Comparator<Product>() {
             @Override
             public int compare(Product p1, Product p2) {
-                if(asc)// jika pengurutan secara ascending
+                if(asc)// sort ascendig
                     return p1.getPrice() - p2.getPrice();
-                else // jika pengurutan secara descending
+                else // sort descending
                     return p2.getPrice() - p1.getPrice();
             }
 
