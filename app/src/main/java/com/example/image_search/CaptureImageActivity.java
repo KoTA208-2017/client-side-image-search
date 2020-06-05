@@ -67,7 +67,6 @@ public class CaptureImageActivity extends AppCompatActivity {
     CameraCaptureSession cameraCaptureSession;
     CaptureRequest.Builder captureRequestBuilder;
 
-    private Size imageDimensions;
     private int previewWidth;
     private int previewHeight;
     private File file;
@@ -248,7 +247,6 @@ public class CaptureImageActivity extends AppCompatActivity {
 
         CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
         StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-//        imageDimensions = map.getOutputSizes(SurfaceTexture.class)[0];
         // get screen size of device
         getPreferredPreviewSize();
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
