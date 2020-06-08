@@ -8,9 +8,9 @@
     <string name="sort_product_dialog_title">Sort by</string>
 
     <string-array name="ecommerce_name">
-        <item>Berry Benka</item>
-        <item>MapeMall</item>
+        <item>Berrybenka</item>
         <item>Zalora</item>
+        <item>Mapemall</item>
     </string-array>
 
     <string-array name="sort_choices">
