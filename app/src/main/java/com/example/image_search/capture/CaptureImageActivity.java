@@ -1,4 +1,4 @@
-package com.example.image_search;
+package com.example.image_search.capture;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,22 +39,25 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.image_search.PreviewImageActivity;
+import com.example.image_search.R;
+
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CaptureImageActivity extends AppCompatActivity {
+public class CaptureImageActivity extends AppCompatActivity implements CaptureContract.View, ImageButton.OnClickListener {
+    private CaptureContract.Presenter capturePresenter;
 
-    private static int RESULT_LOAD_IMAGE = 1;
     ImageButton captureBtn, galleryBtn;
     TextureView textureView;
-    String imagePath;
-    private static final SparseIntArray ORIENTATION = new SparseIntArray();
+    private String imagePath;
 
+    private static int RESULT_LOAD_IMAGE = 1;
+    private static final SparseIntArray ORIENTATION = new SparseIntArray();
     static {
         ORIENTATION.append(Surface.ROTATION_0, 90);
         ORIENTATION.append(Surface.ROTATION_90, 0);
@@ -63,7 +66,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     }
 
     private String cameraId;
-    CameraDevice cameraDevice;
+    private CameraDevice cameraDevice;
     CameraCaptureSession cameraCaptureSession;
     CaptureRequest.Builder captureRequestBuilder;
 
@@ -78,36 +81,40 @@ public class CaptureImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_capture_image);
-        
+
+        capturePresenter = new CaptureImagePresenter(this);
+        initViews();
+    }
+
+    private void initViews(){
         textureView = findViewById(R.id.textureView);
         captureBtn = findViewById(R.id.captureBtn);
         galleryBtn = findViewById(R.id.galleryBtn);
         textureView.setSurfaceTextureListener(textureListener);
 
-        captureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //take picture
+        captureBtn.setOnClickListener(this);
+        galleryBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.captureBtn:
                 try {
                     takePicture();
                 } catch (CameraAccessException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-
-        galleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+            case R.id.galleryBtn:
                 //Intent to gallery
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-
+                break;
+        }
     }
 
     //From Gallery
@@ -133,7 +140,8 @@ public class CaptureImageActivity extends AppCompatActivity {
     }
 
     // open preview activity
-    private void intentToPreviewActivity(){
+    @Override
+    public void intentToPreviewActivity() {
         Intent mIntent = new Intent(CaptureImageActivity.this, PreviewImageActivity.class);
         mIntent.putExtra("IMAGE_PATH", imagePath);
         startActivity(mIntent);
@@ -196,7 +204,8 @@ public class CaptureImageActivity extends AppCompatActivity {
         }
     };
 
-    private void createCameraPreview() throws CameraAccessException {
+    @Override
+    public void createCameraPreview() throws CameraAccessException {
         SurfaceTexture texture = textureView.getSurfaceTexture();
         texture.setDefaultBufferSize(previewHeight, previewWidth);
         Surface surface = new Surface(texture);
@@ -240,7 +249,8 @@ public class CaptureImageActivity extends AppCompatActivity {
         cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, nBackgroundHandler);
     }
 
-    private void openCamera() throws CameraAccessException {
+    @Override
+    public void openCamera() throws CameraAccessException {
         CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
 
         cameraId = manager.getCameraIdList()[0];
@@ -269,7 +279,8 @@ public class CaptureImageActivity extends AppCompatActivity {
         previewHeight = size.y;
     }
 
-    private void takePicture() throws CameraAccessException {
+    @Override
+    public void takePicture() throws CameraAccessException {
         if(cameraDevice == null) {
             return;
         }
@@ -315,7 +326,7 @@ public class CaptureImageActivity extends AppCompatActivity {
 
                 try {
                     //save the image
-                    save(bytes);
+                    capturePresenter.saveImage(bytes, file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -357,16 +368,6 @@ public class CaptureImageActivity extends AppCompatActivity {
             public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) { }
 
         }, nBackgroundHandler);
-    }
-
-    private void save(byte[] bytes) throws IOException {
-        FileOutputStream outputStream = null;
-
-        outputStream =  new FileOutputStream(file);
-
-        outputStream.write(bytes);
-
-        outputStream.close();
     }
     
     @Override

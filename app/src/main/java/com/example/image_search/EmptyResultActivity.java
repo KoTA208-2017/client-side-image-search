@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.example.image_search.capture.CaptureImageActivity;
+
 public class EmptyResultActivity extends AppCompatActivity {
     Button backBtn;
 

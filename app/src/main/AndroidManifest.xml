@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CaptureImageActivity"
+            android:name=".capture.CaptureImageActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
             android:name=".CropImageActivity"

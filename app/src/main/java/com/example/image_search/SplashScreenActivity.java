@@ -7,6 +7,8 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.image_search.capture.CaptureImageActivity;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN = 3000;
