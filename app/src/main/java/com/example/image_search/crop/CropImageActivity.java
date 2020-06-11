@@ -1,25 +1,26 @@
-package com.example.image_search;
+package com.example.image_search.crop;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.image_search.R;
+import com.example.image_search.capture.CaptureImageActivity;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
-public class CropImageActivity extends AppCompatActivity {
+public class CropImageActivity extends AppCompatActivity implements CropImageContract.View{
+    private CropImagePresenter cropPresenter;
+
     CropImageView cropImageView;
     Button doneBtn, cancelBtn;
 
@@ -39,52 +40,42 @@ public class CropImageActivity extends AppCompatActivity {
         // finally change the color
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
 
-        cropImageView = findViewById(R.id.cropImageView);
-        cancelBtn = findViewById(R.id.cancelBtn);
-        doneBtn = findViewById(R.id.doneBtn);
+        initView();
 
         Intent intent = getIntent();
         final long milis;
 
+        milis = intent.getLongExtra("MILIS", 1);
         imagePath = intent.getStringExtra("IMAGE_PATH");
         cropImageView.setImageUriAsync(Uri.fromFile(new File(imagePath)));
-        milis = intent.getLongExtra("MILIS", 1);
-        
+        cropPresenter = new CropImagePresenter(this);
+
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = cropImage(milis);
-
-                //intent to preview image activity
-                backToPreviewActivity(file);
+                Bitmap cropped = cropImageView.getCroppedImage();
+                cropPresenter.onCropListener(milis, cropped, CropImageActivity.this);
             }
         });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = cropImage(milis);
-
                 //intent to preview image activity
-                backToPreviewActivity(null);
+                intentToPreviewActivity(null);
             }
         });
     }
 
-    private File cropImage(long milis) {
-        Bitmap cropped = cropImageView.getCroppedImage();
-        
-        if (cropped != null) {
-            //create a file object using file path
-            File file = createTempFile(milis, cropped);
-
-            return file;
-        }
-        return null;
+    private void initView() {
+        cropImageView = findViewById(R.id.cropImageView);
+        cancelBtn = findViewById(R.id.cancelBtn);
+        doneBtn = findViewById(R.id.doneBtn);
     }
 
     // open preview activity
-    private void backToPreviewActivity(File file){
+    @Override
+    public void intentToPreviewActivity(File file) {
         Intent returnIntent = new Intent();
 
         if (file != null) {
@@ -98,24 +89,4 @@ public class CropImageActivity extends AppCompatActivity {
         finish();
     }
 
-    private File createTempFile(long milis, Bitmap bitmap) {
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                , milis +"_image.jpg");
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,70, bos);
-
-        //write the bytes in file
-        byte[] bitmapdata = bos.toByteArray();
-
-        try {
-            FileOutputStream fos = new FileOutputStream(file, false);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
 }

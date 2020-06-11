@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.image_search.CropImageActivity;
+import com.example.image_search.crop.CropImageActivity;
 import com.example.image_search.R;
 import com.example.image_search.SearchResultActivity;
 import com.example.image_search.capture.CaptureImageActivity;

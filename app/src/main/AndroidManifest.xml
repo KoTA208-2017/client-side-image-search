@@ -35,7 +35,7 @@
             android:name=".capture.CaptureImageActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
-            android:name=".CropImageActivity"
+            android:name=".crop.CropImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
