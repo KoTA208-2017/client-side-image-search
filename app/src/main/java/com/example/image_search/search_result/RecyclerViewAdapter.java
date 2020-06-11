@@ -1,31 +1,30 @@
-package com.example.image_search;
+package com.example.image_search.search_result;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.image_search.Product;
+import com.example.image_search.R;
+import com.example.image_search.Util;
 
 import java.io.IOException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter <RecyclerViewAdapter.ProductHolder> {
     @NonNull
     private Context mContext;
-    private List< Product > mProductList;
+    private List<Product> mProductList;
     private OnItemClickListener mListener;
 
     String IMG_URL = "";

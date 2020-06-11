@@ -42,7 +42,7 @@
             android:name=".PreviewImageActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SearchResultActivity"
+            android:name=".search_result.SearchResultActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
