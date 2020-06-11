@@ -3,7 +3,7 @@ package com.example.image_search.capture;
 import java.io.File;
 import java.io.IOException;
 
-public class CaptureImagePresenter implements CaptureImageContract.Interactor {
+public class CaptureImagePresenter implements CaptureImageContract.Presenter {
     private CaptureImageContract.Interactor captureInteractor;
     private CaptureImageContract.View captureView;
 
@@ -13,7 +13,7 @@ public class CaptureImagePresenter implements CaptureImageContract.Interactor {
     }
 
     @Override
-    public void saveImage(byte[] bytes, File imageFile) throws IOException {
+    public void onSaveImageListener(byte[] bytes, File imageFile) throws IOException {
         captureInteractor.saveImage(bytes, imageFile);
         captureView.intentToPreviewActivity();
     }

@@ -50,7 +50,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CaptureImageActivity extends AppCompatActivity implements CaptureImageContract.View, ImageButton.OnClickListener {
-    private CaptureImagePresenter capturePresenter;
+    private CaptureImageContract.Presenter capturePresenter;
 
     ImageButton captureBtn, galleryBtn;
     TextureView textureView;
@@ -326,7 +326,7 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
 
                 try {
                     //save the image
-                    capturePresenter.saveImage(bytes, file);
+                    capturePresenter.onSaveImageListener(bytes, file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {

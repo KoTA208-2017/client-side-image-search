@@ -15,6 +15,10 @@ public interface CaptureImageContract {
         void intentToPreviewActivity();
     }
 
+    interface Presenter {
+        void onSaveImageListener(byte[] bytes, File imageFile) throws IOException;
+    }
+
     interface Interactor {
         void saveImage(byte[] bytes, File imageFile) throws IOException;
     }
