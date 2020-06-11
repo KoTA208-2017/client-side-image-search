@@ -1,4 +1,4 @@
-package com.example.image_search;
+package com.example.image_search.search_result;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.example.image_search.R;
 import com.example.image_search.capture.CaptureImageActivity;
 
 public class EmptyResultActivity extends AppCompatActivity {

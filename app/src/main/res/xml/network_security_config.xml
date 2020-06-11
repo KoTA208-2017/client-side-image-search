@@ -1,6 +1,8 @@
 <?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">4510d774bbae.ngrok.io</domain>
+        <domain includeSubdomains="true">264904739605.ngrok.io</domain>
+        <domain includeSubdomains="true">static.id.zalora.net</domain>
+        <domain includeSubdomains="true">zalora-media-live-id.s3.amazonaws.com</domain>
     </domain-config>
 </network-security-config>
