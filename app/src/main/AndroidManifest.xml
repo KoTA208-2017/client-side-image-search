@@ -32,14 +32,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CaptureImageActivity"
+            android:name=".capture.CaptureImageActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
-            android:name=".CropImageActivity"
+            android:name=".crop.CropImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".PreviewImageActivity"
+            android:name=".preview.PreviewImageActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".search_result.SearchResultActivity"

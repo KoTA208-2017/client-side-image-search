@@ -1,4 +1,4 @@
-package com.example.image_search;
+package com.example.image_search.preview;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -14,16 +13,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.image_search.crop.CropImageActivity;
+import com.example.image_search.R;
 import com.example.image_search.search_result.SearchResultActivity;
+import com.example.image_search.capture.CaptureImageActivity;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class PreviewImageActivity extends AppCompatActivity {
+public class PreviewImageActivity extends AppCompatActivity implements PreviewImageContract.View, Button.OnClickListener {
+    PreviewImagePresenter previewPresenter;
+
     ImageView imageView;
     Button backBtn, nextBtn, cropBtn;
+    Intent mIntent;
 
     String sourceImagePath;
     String imagePath;
@@ -45,52 +48,30 @@ public class PreviewImageActivity extends AppCompatActivity {
         // finally change the color
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
 
+        initView();
+
         Intent intent = getIntent();
         sourceImagePath = intent.getStringExtra("IMAGE_PATH");
-
-        imageView = findViewById(R.id.imageView);
-        backBtn = findViewById(R.id.backBtn);
-        nextBtn = findViewById(R.id.nextBtn);
-        cropBtn = findViewById(R.id.cropBtn);
-
         imagePath = sourceImagePath;
 
         //for cropped image name
         milis = System.currentTimeMillis();
 
+        previewPresenter = new PreviewImagePresenter();
+
         // show image
         showImage();
+    }
 
-        cropBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imagePath = sourceImagePath;
+    private void initView() {
+        imageView = findViewById(R.id.imageView);
+        backBtn = findViewById(R.id.backBtn);
+        nextBtn = findViewById(R.id.nextBtn);
+        cropBtn = findViewById(R.id.cropBtn);
 
-                Intent mIntent = new Intent(PreviewImageActivity.this, CropImageActivity.class);
-                mIntent.putExtra("IMAGE_PATH", imagePath);
-                mIntent.putExtra("MILIS", milis);
-
-                startActivityForResult(mIntent, LAUNCH_CROP_ACTIVITY);
-            }
-        });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mIntent = new Intent(PreviewImageActivity.this, CaptureImageActivity.class);
-                startActivity(mIntent);
-            }
-        });
-
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mIntent = new Intent(PreviewImageActivity.this, SearchResultActivity.class);
-                mIntent.putExtra("IMAGE_PATH", imagePath);
-
-                startActivityForResult(mIntent, LAUNCH_SEARCH_RESULT_ACTIVITY);
-            }
-        });
+        backBtn.setOnClickListener(this);
+        nextBtn.setOnClickListener(this);
+        cropBtn.setOnClickListener(this);
     }
 
     @Override
@@ -105,7 +86,34 @@ public class PreviewImageActivity extends AppCompatActivity {
         }
     }
 
-    private void showImage() {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.backBtn:
+                mIntent = new Intent(PreviewImageActivity.this, CaptureImageActivity.class);
+                startActivity(mIntent);
+                break;
+            case R.id.nextBtn:
+                mIntent = new Intent(PreviewImageActivity.this, SearchResultActivity.class);
+                mIntent.putExtra("IMAGE_PATH", imagePath);
+
+                startActivityForResult(mIntent, LAUNCH_SEARCH_RESULT_ACTIVITY);
+                break;
+            case R.id.cropBtn:
+                imagePath = sourceImagePath;
+
+                mIntent = new Intent(PreviewImageActivity.this, CropImageActivity.class);
+                mIntent.putExtra("IMAGE_PATH", imagePath);
+                mIntent.putExtra("MILIS", milis);
+
+                startActivityForResult(mIntent, LAUNCH_CROP_ACTIVITY);
+                break;
+        }
+    }
+
+
+    @Override
+    public void showImage() {
         File imgFile = new  File(imagePath);
 
         //Check image orientation
@@ -123,8 +131,8 @@ public class PreviewImageActivity extends AppCompatActivity {
             Bitmap imageBitmap;
 
             if (orientation == 6) {
-                imageBitmap = rotate(myBitmap);
-                replaceImageFile(imagePath, imageBitmap);
+                imageBitmap = previewPresenter.rotate(myBitmap);
+                previewPresenter.replaceImageFile(imagePath, imageBitmap);
                 imageView.setScaleType(ImageView.ScaleType.MATRIX);
             } else {
                 imageBitmap = myBitmap;
@@ -134,34 +142,4 @@ public class PreviewImageActivity extends AppCompatActivity {
             imageView.setImageBitmap(imageBitmap);
         }
     }
-
-    private Bitmap rotate(Bitmap sourceBitmap) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-
-        Bitmap rotatedBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight(), matrix, true);
-        sourceBitmap.recycle();
-
-        return rotatedBitmap;
-    }
-
-    private File replaceImageFile(String imagePath, Bitmap bitmap) {
-        File file = new File(imagePath);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100, bos);
-        byte[] bitmapdata = bos.toByteArray();
-        //write the bytes in file
-
-        try {
-            FileOutputStream fos = new FileOutputStream(file, false);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
-
 }
