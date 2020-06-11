@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class CaptureImageInteractor implements CaptureContract.Interactor{
+public class CaptureImageInteractor implements CaptureImageContract.Interactor{
 
     @Override
     public void saveImage(byte[] bytes, File imageFile) throws IOException {

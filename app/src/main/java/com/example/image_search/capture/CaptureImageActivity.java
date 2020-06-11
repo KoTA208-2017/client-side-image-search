@@ -49,8 +49,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CaptureImageActivity extends AppCompatActivity implements CaptureContract.View, ImageButton.OnClickListener {
-    private CaptureContract.Presenter capturePresenter;
+public class CaptureImageActivity extends AppCompatActivity implements CaptureImageContract.View, ImageButton.OnClickListener {
+    private CaptureImagePresenter capturePresenter;
 
     ImageButton captureBtn, galleryBtn;
     TextureView textureView;

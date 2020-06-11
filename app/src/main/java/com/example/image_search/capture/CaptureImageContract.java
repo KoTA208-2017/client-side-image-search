@@ -7,16 +7,12 @@ import android.hardware.camera2.CameraAccessException;
 import java.io.File;
 import java.io.IOException;
 
-public interface CaptureContract {
+public interface CaptureImageContract {
     interface View {
         void createCameraPreview() throws CameraAccessException;
         void openCamera() throws CameraAccessException;
         void takePicture() throws CameraAccessException;
         void intentToPreviewActivity();
-    }
-
-    interface Presenter {
-        void saveImage(byte[] bytes, File imageFile) throws IOException;
     }
 
     interface Interactor {

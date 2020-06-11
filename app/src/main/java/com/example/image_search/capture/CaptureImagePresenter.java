@@ -3,11 +3,11 @@ package com.example.image_search.capture;
 import java.io.File;
 import java.io.IOException;
 
-public class CaptureImagePresenter implements CaptureContract.Presenter {
-    private CaptureContract.Interactor captureInteractor;
-    private CaptureContract.View captureView;
+public class CaptureImagePresenter implements CaptureImageContract.Interactor {
+    private CaptureImageContract.Interactor captureInteractor;
+    private CaptureImageContract.View captureView;
 
-    public CaptureImagePresenter(CaptureContract.View captureView) {
+    public CaptureImagePresenter(CaptureImageContract.View captureView) {
         this.captureView = captureView;
         this.captureInteractor = new CaptureImageInteractor();
     }
