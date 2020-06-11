@@ -2,11 +2,10 @@ package com.example.image_search.search_result;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.example.image_search.ApiService;
-import com.example.image_search.Result;
+import com.example.image_search.data.ApiService;
+import com.example.image_search.data.Result;
 import com.example.image_search.Util;
 
 import java.io.File;

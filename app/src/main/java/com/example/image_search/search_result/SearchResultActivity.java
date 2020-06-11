@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.image_search.GridSpacingItemDecoration;
-import com.example.image_search.Product;
+import com.example.image_search.data.Product;
 import com.example.image_search.R;
 
 import java.util.ArrayList;

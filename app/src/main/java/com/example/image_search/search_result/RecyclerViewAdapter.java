@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.image_search.Product;
+import com.example.image_search.data.Product;
 import com.example.image_search.R;
 import com.example.image_search.Util;
 

@@ -3,7 +3,7 @@ package com.example.image_search.search_result;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.example.image_search.Product;
+import com.example.image_search.data.Product;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,31 +1,11 @@
 package com.example.image_search.search_result;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.util.Log;
+import com.example.image_search.data.Product;
 
-import com.example.image_search.ApiService;
-import com.example.image_search.Product;
-import com.example.image_search.Result;
-import com.example.image_search.Util;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SearchResultInteractorImpl implements SearchResultContract.Interactor {
