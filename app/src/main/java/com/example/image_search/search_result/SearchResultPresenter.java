@@ -23,15 +23,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SearchResultPresenterImpl implements SearchResultContract.Presenter {
+public class SearchResultPresenter implements SearchResultContract.Presenter {
 
     private SearchResultContract.View searchResultView;
     private SearchResultContract.Interactor searchResultInteractor;
     private ProgressDialog progressDialog;
 
-    public SearchResultPresenterImpl(SearchResultContract.View searchResultView) {
+    public SearchResultPresenter(SearchResultContract.View searchResultView) {
         this.searchResultView = searchResultView;
-        this.searchResultInteractor = new SearchResultInteractorImpl();
+        this.searchResultInteractor = new SearchResultInteractor();
     }
 
     @Override

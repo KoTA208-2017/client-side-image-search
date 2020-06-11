@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class SearchResultInteractorImpl implements SearchResultContract.Interactor {
+public class SearchResultInteractor implements SearchResultContract.Interactor {
     private List<Product> productList = new ArrayList<>();
     private List<Product> productsFilter;
 

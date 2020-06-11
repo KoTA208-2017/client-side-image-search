@@ -79,7 +79,7 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
 
-        searchResultPresenter = new SearchResultPresenterImpl(this);
+        searchResultPresenter = new SearchResultPresenter(this);
         searchResultPresenter.uploadImage(imagePath, this);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
