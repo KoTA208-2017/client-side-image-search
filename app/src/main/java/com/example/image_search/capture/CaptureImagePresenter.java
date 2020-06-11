@@ -1,10 +1,5 @@
 package com.example.image_search.capture;
 
-import android.content.Context;
-import android.content.Intent;
-
-import com.example.image_search.PreviewImageActivity;
-
 import java.io.File;
 import java.io.IOException;
 

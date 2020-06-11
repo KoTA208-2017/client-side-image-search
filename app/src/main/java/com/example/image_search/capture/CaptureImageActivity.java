@@ -39,7 +39,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.image_search.PreviewImageActivity;
+import com.example.image_search.preview.PreviewImageActivity;
 import com.example.image_search.R;
 
 import java.io.File;
