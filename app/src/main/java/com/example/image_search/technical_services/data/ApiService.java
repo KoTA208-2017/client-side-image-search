@@ -1,4 +1,4 @@
-package com.example.image_search.data;
+package com.example.image_search.technical_services.data;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;

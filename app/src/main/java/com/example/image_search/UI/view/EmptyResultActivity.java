@@ -1,4 +1,4 @@
-package com.example.image_search.search_result;
+package com.example.image_search.UI.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.image_search.R;
-import com.example.image_search.capture.CaptureImageActivity;
 
 public class EmptyResultActivity extends AppCompatActivity {
     Button backBtn;

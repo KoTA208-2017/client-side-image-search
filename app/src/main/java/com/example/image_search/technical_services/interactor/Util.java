@@ -1,4 +1,4 @@
-package com.example.image_search;
+package com.example.image_search.technical_services.interactor;
 
 import android.content.Context;
 import android.content.res.AssetManager;

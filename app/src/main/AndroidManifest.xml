@@ -21,9 +21,9 @@
             android:name="com.google.android.actions"
             android:resource="@xml/network_security_config" />
 
-        <activity android:name=".search_result.EmptyResultActivity" />
+        <activity android:name=".UI.view.EmptyResultActivity" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".UI.view.SplashScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,17 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".capture.CaptureImageActivity"
+            android:name=".UI.view.CaptureImageActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
-            android:name=".crop.CropImageActivity"
+            android:name=".UI.view.CropImageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".preview.PreviewImageActivity"
+            android:name=".UI.view.PreviewImageActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".search_result.SearchResultActivity"
+            android:name=".UI.view.SearchResultActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data

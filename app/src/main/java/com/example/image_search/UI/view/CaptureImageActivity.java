@@ -1,4 +1,4 @@
-package com.example.image_search.capture;
+package com.example.image_search.UI.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +39,8 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.image_search.preview.PreviewImageActivity;
+import com.example.image_search.contract.CaptureImageContract;
+import com.example.image_search.domain.presenter.CaptureImagePresenter;
 import com.example.image_search.R;
 
 import java.io.File;

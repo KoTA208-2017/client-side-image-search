@@ -1,4 +1,4 @@
-package com.example.image_search.crop;
+package com.example.image_search.UI.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.image_search.R;
-import com.example.image_search.capture.CaptureImageActivity;
+import com.example.image_search.contract.CropImageContract;
+import com.example.image_search.domain.presenter.CropImagePresenter;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
-public class CropImageActivity extends AppCompatActivity implements CropImageContract.View{
+public class CropImageActivity extends AppCompatActivity implements CropImageContract.View {
     private CropImagePresenter cropPresenter;
 
     CropImageView cropImageView;

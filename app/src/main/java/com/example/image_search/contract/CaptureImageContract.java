@@ -1,4 +1,4 @@
-package com.example.image_search.capture;
+package com.example.image_search.contract;
 
 import android.content.Context;
 import android.content.Intent;

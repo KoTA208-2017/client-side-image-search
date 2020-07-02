@@ -1,7 +1,9 @@
-package com.example.image_search.crop;
+package com.example.image_search.domain.presenter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
+
+import com.example.image_search.contract.CropImageContract;
+import com.example.image_search.technical_services.interactor.CropImageInteractor;
 
 import java.io.File;
 
