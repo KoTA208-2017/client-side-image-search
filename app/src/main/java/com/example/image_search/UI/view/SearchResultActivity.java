@@ -241,8 +241,21 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
     }
 
     @Override
-    public void intentToEmptyActivity() {
+    public void intentToEmptyActivity(String statusCode) {
         Intent mIntent = new Intent(this, EmptyResultActivity.class);
+
+        switch(statusCode) {
+            case "404":
+                mIntent.putExtra("MESSAGES", new String[] { statusCode, "We couldn't find any results", "Make sure the subject is well lit and centered"});
+                break;
+            case "500":
+                mIntent.putExtra("MESSAGES", new String[] { statusCode, "Looks like the server is taking\n too long to respond", "Please try again in sometime"});
+                break;
+            default:
+                mIntent.putExtra("MESSAGES", new String[] { statusCode, "Looks like the server is taking\n too long to respond", "This can be caused by either poor connectivity or \nan error with our servers, please try again in a while"});
+                break;
+        }
+
         startActivity(mIntent);
     }
 }

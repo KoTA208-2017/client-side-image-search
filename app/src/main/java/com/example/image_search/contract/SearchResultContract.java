@@ -12,7 +12,7 @@ public interface SearchResultContract {
     interface View{
         void showProduct(List<Product> mProductList);
         ProgressDialog setProgressDialog();
-        void intentToEmptyActivity();
+        void intentToEmptyActivity(String statusCode);
     }
 
     interface Interactor{

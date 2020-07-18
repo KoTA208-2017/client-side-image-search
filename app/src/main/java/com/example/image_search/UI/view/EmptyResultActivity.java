@@ -7,11 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.example.image_search.R;
 
 public class EmptyResultActivity extends AppCompatActivity {
     Button backBtn;
+    ImageView emptyIcon;
+    TextView mainMessage, secondMessage, suggestMessage;
+    TableLayout helpImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +34,39 @@ public class EmptyResultActivity extends AppCompatActivity {
         // finally change the color
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
 
-        backBtn = findViewById(R.id.backBtn);
+        emptyIcon = findViewById(R.id.emptyIcon);
+        mainMessage = findViewById(R.id.mainMessage);
+        secondMessage = findViewById(R.id.secondMessage);
+        suggestMessage = findViewById(R.id.suggestMessage);
+        helpImages = findViewById(R.id.helpImages);
 
+        Intent intent = getIntent();
+        final String messageList[] = getIntent().getStringArrayExtra("MESSAGES");
+
+        String statusCode, strMainMessage, strSecondMessage;
+        statusCode = messageList[0];
+        strMainMessage = messageList[1];
+        strSecondMessage = messageList[2];
+
+        mainMessage.setText(strMainMessage);
+        secondMessage.setText(strSecondMessage);
+
+        if(!statusCode.equals("404")) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            );
+            params.topMargin = 200;
+            emptyIcon.setLayoutParams(params);
+            emptyIcon.setImageResource(R.drawable.ic_snail);
+            emptyIcon.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            emptyIcon.getLayoutParams().height = 160;
+
+            suggestMessage.setVisibility(View.GONE);
+            helpImages.setVisibility(View.GONE);
+        }
+
+        backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

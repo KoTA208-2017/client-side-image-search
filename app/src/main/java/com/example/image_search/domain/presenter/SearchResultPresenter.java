@@ -84,13 +84,13 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
                     searchResultView.showProduct(searchResultInteractor.getProduct());
                 } else {
                     progressDialog.dismiss();
-                    searchResultView.intentToEmptyActivity();
+                    searchResultView.intentToEmptyActivity(String.valueOf(response.code()));
                 }
             }
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
                 progressDialog.dismiss();
-                searchResultView.intentToEmptyActivity();
+                searchResultView.intentToEmptyActivity("0");
             }
         });
     }
