@@ -1,4 +1,4 @@
-package com.example.image_search;
+package com.example.image_search.UI.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.image_search.capture.CaptureImageActivity;
+import com.example.image_search.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

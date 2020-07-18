@@ -1,4 +1,4 @@
-package com.example.image_search;
+package com.example.image_search.UI.view;
 
 import android.graphics.Rect;
 import android.view.View;

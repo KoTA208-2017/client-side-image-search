@@ -1,4 +1,7 @@
-package com.example.image_search.capture;
+package com.example.image_search.domain.presenter;
+
+import com.example.image_search.contract.CaptureImageContract;
+import com.example.image_search.technical_services.interactor.CaptureImageInteractor;
 
 import java.io.File;
 import java.io.IOException;

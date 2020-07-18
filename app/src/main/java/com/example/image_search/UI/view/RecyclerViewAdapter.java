@@ -1,4 +1,4 @@
-package com.example.image_search.search_result;
+package com.example.image_search.UI.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.image_search.data.Product;
+import com.example.image_search.technical_services.data.Product;
 import com.example.image_search.R;
-import com.example.image_search.Util;
+import com.example.image_search.technical_services.interactor.Util;
 
 import java.io.IOException;
 import java.util.List;

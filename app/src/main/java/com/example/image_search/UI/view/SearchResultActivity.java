@@ -1,4 +1,4 @@
-package com.example.image_search.search_result;
+package com.example.image_search.UI.view;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,15 +14,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.image_search.GridSpacingItemDecoration;
-import com.example.image_search.data.Product;
+import com.example.image_search.contract.SearchResultContract;
+import com.example.image_search.domain.presenter.SearchResultPresenter;
+import com.example.image_search.technical_services.data.Product;
 import com.example.image_search.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class SearchResultActivity extends AppCompatActivity implements SearchResultContract.View{
+public class SearchResultActivity extends AppCompatActivity implements SearchResultContract.View {
     Button storeFilterBtn, backBtn, sortBtn;
     private SearchResultContract.Presenter searchResultPresenter;
 

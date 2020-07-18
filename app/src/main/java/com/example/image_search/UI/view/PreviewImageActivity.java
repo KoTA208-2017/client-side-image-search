@@ -1,4 +1,4 @@
-package com.example.image_search.preview;
+package com.example.image_search.UI.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,10 +13,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.image_search.crop.CropImageActivity;
 import com.example.image_search.R;
-import com.example.image_search.search_result.SearchResultActivity;
-import com.example.image_search.capture.CaptureImageActivity;
+import com.example.image_search.contract.PreviewImageContract;
+import com.example.image_search.domain.presenter.PreviewImagePresenter;
 
 import java.io.File;
 import java.io.IOException;

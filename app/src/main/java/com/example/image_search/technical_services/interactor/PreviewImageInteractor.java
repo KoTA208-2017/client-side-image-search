@@ -1,7 +1,9 @@
-package com.example.image_search.preview;
+package com.example.image_search.technical_services.interactor;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+
+import com.example.image_search.contract.PreviewImageContract;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

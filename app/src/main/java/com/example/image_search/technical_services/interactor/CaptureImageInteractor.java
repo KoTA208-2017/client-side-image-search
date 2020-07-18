@@ -1,4 +1,6 @@
-package com.example.image_search.capture;
+package com.example.image_search.technical_services.interactor;
+
+import com.example.image_search.contract.CaptureImageContract;
 
 import java.io.File;
 import java.io.FileOutputStream;

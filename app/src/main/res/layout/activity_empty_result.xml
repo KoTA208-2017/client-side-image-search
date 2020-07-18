@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".search_result.EmptyResultActivity"
+    tools:context=".UI.view.EmptyResultActivity"
     android:layout_gravity="top|fill_horizontal"
     android:orientation="horizontal"
     android:background="@color/white"

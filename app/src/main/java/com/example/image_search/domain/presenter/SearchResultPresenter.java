@@ -1,12 +1,14 @@
-package com.example.image_search.search_result;
+package com.example.image_search.domain.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.image_search.data.ApiService;
-import com.example.image_search.data.Result;
-import com.example.image_search.Util;
+import com.example.image_search.contract.SearchResultContract;
+import com.example.image_search.technical_services.data.ApiService;
+import com.example.image_search.technical_services.data.Result;
+import com.example.image_search.technical_services.interactor.Util;
+import com.example.image_search.technical_services.interactor.SearchResultInteractor;
 
 import java.io.File;
 import java.io.IOException;

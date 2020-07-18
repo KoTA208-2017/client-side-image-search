@@ -1,4 +1,4 @@
-package com.example.image_search.crop;
+package com.example.image_search.contract;
 
 import android.graphics.Bitmap;
 

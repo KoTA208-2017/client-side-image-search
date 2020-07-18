@@ -1,6 +1,7 @@
-package com.example.image_search.search_result;
+package com.example.image_search.technical_services.interactor;
 
-import com.example.image_search.data.Product;
+import com.example.image_search.contract.SearchResultContract;
+import com.example.image_search.technical_services.data.Product;
 
 import java.util.ArrayList;
 import java.util.Collections;

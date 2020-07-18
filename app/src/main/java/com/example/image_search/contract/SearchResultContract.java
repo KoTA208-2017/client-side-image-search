@@ -1,9 +1,9 @@
-package com.example.image_search.search_result;
+package com.example.image_search.contract;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.example.image_search.data.Product;
+import com.example.image_search.technical_services.data.Product;
 
 import java.util.ArrayList;
 import java.util.List;
