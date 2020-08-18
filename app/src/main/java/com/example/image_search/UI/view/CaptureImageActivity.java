@@ -32,11 +32,14 @@ import android.provider.MediaStore;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.image_search.contract.CaptureImageContract;
@@ -77,6 +80,8 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
     Handler nBackgroundHandler;
     HandlerThread nBackgroundThread;
 
+    List<String> allowedImageExtentions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +89,8 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
         setContentView(R.layout.activity_capture_image);
 
         capturePresenter = new CaptureImagePresenter(this);
+        allowedImageExtentions = Arrays.asList(getResources().getStringArray(R.array.allowed_image_extentions));
+
         initViews();
     }
 
@@ -137,10 +144,30 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             imagePath = cursor.getString(columnIndex);
+
             cursor.close();
 
-            // open preview activity
-            intentToPreviewActivity();
+            // check image extention
+            String extention = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+            boolean allowed = allowedImageExtentions.contains(extention);
+
+            if (!allowed) {
+                Toast toast;
+                toast = Toast.makeText(this, "Sorry, " + extention + " " +
+                        "image is not supported\nPlease choose jpg or png image only", Toast.LENGTH_LONG);
+
+                // centering toast position
+                toast.setGravity(Gravity.CENTER, 0, 0);
+
+                //centering text
+                ((TextView)((LinearLayout)toast.getView()).getChildAt(0)).setGravity(Gravity.CENTER_HORIZONTAL);
+
+                toast.show();
+            } else {
+                // open preview activity
+                intentToPreviewActivity();
+            }
+
         }
     }
 
