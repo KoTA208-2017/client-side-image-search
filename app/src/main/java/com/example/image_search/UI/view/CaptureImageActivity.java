@@ -109,13 +109,17 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
                 break;
             case R.id.galleryBtn:
                 //Intent to gallery
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                getImageFromGallery();
                 break;
         }
+    }
+
+    private void getImageFromGallery() {
+        Intent i = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
     //From Gallery
@@ -370,7 +374,7 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
 
         }, nBackgroundHandler);
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();

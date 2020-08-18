@@ -11,20 +11,20 @@ import java.util.List;
 
 public class SearchResultInteractor implements SearchResultContract.Interactor {
     private List<Product> productList = new ArrayList<>();
-    private List<Product> productsFilter;
+    private List<Product> productFilter;
 
     @Override
     public void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, int selectedSort) {
 
         if(userSelectedEcommerces.size() == 0 || userSelectedEcommerces.size() == 3) {
-            productsFilter = new ArrayList<>(productList);
+            productFilter = new ArrayList<>(productList);
         }
         else{
-            productsFilter = new ArrayList<>();
+            productFilter = new ArrayList<>();
             for (Product p : productList) {
                 for (int i = 0; i < userSelectedEcommerces.size(); i++) {
                     if (p.getSiteName() != null && p.getSiteName().contains(ecommerceList[userSelectedEcommerces.get(i)])) {
-                        productsFilter.add(p);
+                        productFilter.add(p);
                     }
                 }
             }
@@ -41,7 +41,7 @@ public class SearchResultInteractor implements SearchResultContract.Interactor {
 
     @Override
     public void sort(final boolean ascending) {
-        Collections.sort(productsFilter, new Comparator<Product>() {
+        Collections.sort(productFilter, new Comparator<Product>() {
             @Override
             public int compare(Product p1, Product p2) {
                 if(ascending)// sort ascendig
@@ -65,7 +65,7 @@ public class SearchResultInteractor implements SearchResultContract.Interactor {
 
     @Override
     public List<Product> getProductFilter() {
-        return productsFilter;
+        return productFilter;
     }
 
 }
