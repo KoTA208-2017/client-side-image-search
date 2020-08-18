@@ -31,10 +31,6 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
     boolean[] checkedEcommerces;
     ArrayList<Integer> userSelectedEcommerces = new ArrayList<>();
 
-    String[] sortList;
-    int selectedSort;
-    int userSelectedSort;
-
     RecyclerView mRecyclerView;
     RecyclerViewAdapter myAdapter;
 
@@ -60,13 +56,9 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
 
         storeFilterBtn = findViewById(R.id.storeFilterBtn);
         backBtn = findViewById(R.id.backBtn);
-        sortBtn =  findViewById(R.id.sortBtn);
 
         ecommerceList = getResources().getStringArray(R.array.ecommerce_name);
         checkedEcommerces = new boolean[ecommerceList.length];
-
-        sortList = getResources().getStringArray(R.array.sort_choices);
-        selectedSort = 0;
 
         prop = new Properties();
 
@@ -93,50 +85,12 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
             }
         });
 
-        sortBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSortAlertDialog();
-            }
-        });
-
         storeFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showFilterStoreDialog();
             }
         });
-    }
-
-    private void showSortAlertDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchResultActivity.this);
-        alertDialog.setTitle(R.string.sort_product_dialog_title);
-        alertDialog.setSingleChoiceItems(sortList, selectedSort, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                userSelectedSort = which;
-            }
-        });
-
-        alertDialog.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                selectedSort = userSelectedSort;
-                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, selectedSort, SearchResultActivity.this);
-            }
-        });
-
-        alertDialog.setCancelable(false);
-
-        alertDialog.setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog alert = alertDialog.create();
-        alert.show();
     }
 
     private void showFilterStoreDialog() {
@@ -172,7 +126,7 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
                         item = item + ", ";
                     }
                 }
-                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, selectedSort, SearchResultActivity.this);
+                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, SearchResultActivity.this);
             }
         });
 
@@ -201,7 +155,7 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
                     checkedEcommerces[i] = false;
                 }
                 userSelectedEcommerces.clear();
-                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, selectedSort, SearchResultActivity.this);
+                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, SearchResultActivity.this);
             }
         });
 
