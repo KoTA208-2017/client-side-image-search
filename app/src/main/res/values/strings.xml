@@ -13,9 +13,4 @@
         <item>Mapemall</item>
     </string-array>
 
-    <string-array name="sort_choices">
-        <item>Best Match</item>
-        <item>Highest Price</item>
-        <item>Lowest Price</item>
-    </string-array>
 </resources>
