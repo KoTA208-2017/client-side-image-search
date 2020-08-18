@@ -311,8 +311,10 @@ public class CaptureImageActivity extends AppCompatActivity implements CaptureIm
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
 
-        file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                , ts +".jpg");
+        String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+        String displayName = ts;
+        file = new File(imagesDir + File.separator, displayName + ".jpg");
+
         imagePath = file.getAbsolutePath();
 
         ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {

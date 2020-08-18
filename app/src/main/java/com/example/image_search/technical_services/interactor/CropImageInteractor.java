@@ -14,7 +14,7 @@ public class CropImageInteractor implements CropImageContract.Interactor{
 
     @Override
     public File createTempFile(long milis, Bitmap bitmap, android.content.Context context){
-        String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();;
+        String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
         String displayName = String.valueOf(milis);
         File file = new File(imagesDir + File.separator, displayName + ".jpg");
 
