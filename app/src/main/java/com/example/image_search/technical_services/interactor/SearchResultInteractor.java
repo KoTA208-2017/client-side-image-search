@@ -4,8 +4,6 @@ import com.example.image_search.contract.SearchResultContract;
 import com.example.image_search.technical_services.data.Product;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -14,7 +12,7 @@ public class SearchResultInteractor implements SearchResultContract.Interactor {
     private List<Product> productFilter;
 
     @Override
-    public void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, int selectedSort) {
+    public void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces) {
 
         if(userSelectedEcommerces.size() == 0 || userSelectedEcommerces.size() == 3) {
             productFilter = new ArrayList<>(productList);
@@ -29,28 +27,6 @@ public class SearchResultInteractor implements SearchResultContract.Interactor {
                 }
             }
         }
-        switch (selectedSort) {
-            case 1:
-                sort(false);
-                break;
-            case 2:
-                sort(true);
-                break;
-        }
-    }
-
-    @Override
-    public void sort(final boolean ascending) {
-        Collections.sort(productFilter, new Comparator<Product>() {
-            @Override
-            public int compare(Product p1, Product p2) {
-                if(ascending)// sort ascendig
-                    return p1.getPrice() - p2.getPrice();
-                else // sort descending
-                    return p2.getPrice() - p1.getPrice();
-            }
-
-        });
     }
 
     @Override

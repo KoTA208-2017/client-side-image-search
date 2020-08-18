@@ -16,8 +16,7 @@ public interface SearchResultContract {
     }
 
     interface Interactor{
-        void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, int selectedSort);
-        void sort(boolean ascending);
+        void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces);
         void setProduct(List<Product> mProductList);
         List<Product> getProduct();
         List<Product> getProductFilter();
@@ -25,6 +24,6 @@ public interface SearchResultContract {
 
     interface Presenter{
         void uploadImage(String imagePath, Context context);
-        void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, int selectedSort, Context context);
+        void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, Context context);
     }
 }

@@ -96,8 +96,8 @@ public class SearchResultPresenter implements SearchResultContract.Presenter {
     }
 
     @Override
-    public void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, int selectedSort, Context context) {
-        searchResultInteractor.filterSortAction(ecommerceList, userSelectedEcommerces, selectedSort);
+    public void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces, Context context) {
+        searchResultInteractor.filterSortAction(ecommerceList, userSelectedEcommerces);
         searchResultView.showProduct(searchResultInteractor.getProductFilter());
     }
 }

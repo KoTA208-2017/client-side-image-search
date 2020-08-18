@@ -46,7 +46,6 @@
             android:id="@+id/storeFilterBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginEnd="14dp"
             style="?android:attr/borderlessButtonStyle"
             android:background="@android:color/transparent"
             android:textColor="@color/colorPrimaryDark"
@@ -55,17 +54,6 @@
             android:contentDescription="filter store"
             android:text="Store" />
 
-        <Button
-            android:id="@+id/sortBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="@android:color/transparent"
-            android:textColor="@color/colorPrimaryDark"
-            android:textAllCaps="false"
-            android:drawableRight="@drawable/ic_sort"
-            android:contentDescription="sort price"
-            android:text="Sort" />
     </LinearLayout>
 
 
