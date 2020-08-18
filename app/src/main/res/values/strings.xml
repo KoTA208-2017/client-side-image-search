@@ -13,14 +13,9 @@
         <item>Mapemall</item>
     </string-array>
 
-    <string-array name="sort_choices">
-        <item>Best Match</item>
-        <item>Highest Price</item>
-        <item>Lowest Price</item>
-    </string-array>
-
     <string-array name="allowed_image_extentions">
         <item>jpg</item>
         <item>png</item>
     </string-array>
+
 </resources>
