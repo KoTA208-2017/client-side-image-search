@@ -126,7 +126,7 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
                         item = item + ", ";
                     }
                 }
-                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, SearchResultActivity.this);
+                searchResultPresenter.filterAction(ecommerceList, userSelectedEcommerces, SearchResultActivity.this);
             }
         });
 
@@ -155,7 +155,7 @@ public class SearchResultActivity extends AppCompatActivity implements SearchRes
                     checkedEcommerces[i] = false;
                 }
                 userSelectedEcommerces.clear();
-                searchResultPresenter.filterSortAction(ecommerceList, userSelectedEcommerces, SearchResultActivity.this);
+                searchResultPresenter.filterAction(ecommerceList, userSelectedEcommerces, SearchResultActivity.this);
             }
         });
 

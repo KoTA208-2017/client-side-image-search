@@ -12,7 +12,7 @@ public class SearchResultInteractor implements SearchResultContract.Interactor {
     private List<Product> productFilter;
 
     @Override
-    public void filterSortAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces) {
+    public void filterAction(String[] ecommerceList, ArrayList<Integer> userSelectedEcommerces) {
 
         if(userSelectedEcommerces.size() == 0 || userSelectedEcommerces.size() == 3) {
             productFilter = new ArrayList<>(productList);
