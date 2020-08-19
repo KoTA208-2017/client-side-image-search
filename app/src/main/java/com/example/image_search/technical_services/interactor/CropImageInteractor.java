@@ -14,8 +14,9 @@ public class CropImageInteractor implements CropImageContract.Interactor{
 
     @Override
     public File createTempFile(long milis, Bitmap bitmap, android.content.Context context){
-        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                , milis +"_image.jpg");
+        String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+        String displayName = String.valueOf(milis);
+        File file = new File(imagesDir + File.separator, displayName + ".jpg");
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,70, bos);
